@@ -1,0 +1,241 @@
+var testword_updatedetail_e = {};
+testword_updatedetail_e.name = "単語テスト開始";
+testword_updatedetail_e.paramsFormat = {
+
+	"#hiddenOpt": null,
+	"#hiddenTestNo": null,
+	"#hiddenWordNo": null,
+	"#hiddenWordCount": null,
+
+	"#hiddenWordWrongTime": null,
+
+
+	"#hiddenWordNoteSeq": null,
+
+
+	"#hiddenKind": null,
+	// "#hiddenWay4": null,
+	
+};
+
+testword_updatedetail_e.fire = function (params) {
+
+	var ret = new Result();
+
+	// セッションチェック
+	if(sessionCheck(ret) == false){return ret};
+
+	// タイトル情報設定
+	//setTitleInfo(ret);
+
+	// params.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+
+	var opt = params["#hiddenOpt"];
+
+	var testno = session.get("TEST_NO");
+	var testsubno = 0;
+
+	var wordseq = parseInt(params["#hiddenWordNoteSeq"]);
+
+
+	var kind = params["#hiddenKind"];
+
+
+	if(opt == "back"){
+
+		var wordCount = parseInt(params["#hiddenWordCount"]);
+		var test_sub_no = parseInt(params["#hiddenWordNo"]);
+
+		if(test_sub_no == 1){
+
+			session.invalidate();
+			// 前のページに戻る
+			return ret.navigate("testword_init.jsp");
+		}else{
+			testsubno = test_sub_no - 1;
+
+			db.change(
+				"STUDY",
+				"updateTestDetailInfo1",
+				{
+					testno : testno,
+					testsubno : testsubno,
+					status : 1,
+					wordWrongTime : null,
+					sen1WrongTime : null,
+					sen2WrongTime : null,
+					wordseq : null,
+					sen1seq : null,
+					sen2seq : null,
+					costtime : null,
+					userid : getUserId()
+				}
+			);
+
+			// 判定結果更新
+			db.change(
+				"STUDY",
+				"updateTestDetailInfo5",
+				{
+					testno : testno,
+					testsubno : testsubno
+				}
+			);
+
+			session.set("TEST_NO", testno);
+			session.set("TEST_SUB_NO", testsubno);
+		}
+
+	}else if(opt == "next"){
+
+		var wordCount = parseInt(params["#hiddenWordCount"]);
+		var test_sub_no = parseInt(params["#hiddenWordNo"]);
+
+		var endtime =  (new Date()).getTime();
+		
+
+		endtime = endtime - session.get("TEST_SUB_NO_STARTTIME");
+
+		if(endtime >= 1000){
+			endtime = Math.round(endtime / 1000);
+		}else{
+			endtime = 1;
+		}
+
+		var wordWrongTime = null;
+		if(params["#hiddenWordWrongTime"] != null && params["#hiddenWordWrongTime"] != ""){
+			wordWrongTime = parseInt(params["#hiddenWordWrongTime"]);;
+		}
+
+		db.change(
+			"STUDY",
+			"updateTestDetailInfo1",
+			{
+				testno : testno,
+				testsubno : test_sub_no,
+				status : 9,
+				wordWrongTime : wordWrongTime,
+				sen1WrongTime : null,
+				sen2WrongTime : null,
+
+				wordseq : wordseq,
+				sen1seq : null,
+				sen2seq : null,
+
+				costtime : endtime,
+				userid : getUserId()
+			}
+		);
+
+		// if(kind == "A.勉強"){
+		// 	// 判定結果更新
+		// 	db.change(
+		// 		"STUDY",
+		// 		"updateTestDetailInfo6",
+		// 		{
+		// 			testno : testno,
+		// 			testsubno : test_sub_no
+		// 		}
+		// 	);
+		// }else{
+			// 判定結果更新
+			db.change(
+				"STUDY",
+				"updateTestDetailInfo2",
+				{
+					testno : testno,
+					testsubno : test_sub_no
+				}
+			);
+		// }
+
+
+		// // 臨時画像削除
+		// if(wordseq != null && wordseq != NaN){
+		// 	db.change(
+		// 		"STUDY",
+		// 		"deleteTestWordNote",
+		// 		{
+		// 			seq : wordseq,
+		// 			userid : getUserId()
+		// 		}
+		// 	);
+		// }
+		// if(sen1seq != null && sen1seq != NaN){
+		// 	db.change(
+		// 		"STUDY",
+		// 		"deleteTestWordNote",
+		// 		{
+		// 			seq : sen1seq,
+		// 			userid : getUserId()
+		// 		}
+		// 	);
+		// }
+		// if(sen2seq != null && sen2seq != NaN){
+		// 	db.change(
+		// 		"STUDY",
+		// 		"deleteTestWordNote",
+		// 		{
+		// 			seq : sen2seq,
+		// 			userid : getUserId()
+		// 		}
+		// 	);
+		// }
+
+		if(test_sub_no == 1){
+
+			// 終了時間更新
+			db.change(
+				"STUDY",
+				"updateTestStartTime",
+				{
+					testno : testno
+				}
+			);
+
+		}
+
+		if(test_sub_no == wordCount){
+			// 終了時間更新
+			db.change(
+				"STUDY",
+				"updateTestEndTime",
+				{
+					testno : testno
+				}
+			);
+
+			session.set("TEST_NO", null);
+			session.set("TEST_SUB_NO", null);
+
+			return ret.eval("overTest();");
+
+		}else{
+
+			testsubno = test_sub_no + 1;
+			session.set("TEST_NO", testno);
+			session.set("TEST_SUB_NO", testsubno);
+		}
+
+
+	}
+
+	// //  检索
+	// var selectResult2 = db.select(
+	// 	"STUDY",
+	// 	"selectTestInfo",
+	// 	{
+	// 		testno : testno,
+	// 	}
+	// ).getSingle();
+
+	// if(way3 == "1"){
+	// 	return ret.navigate("testword_test2.jsp");
+	// }
+	// if(way4 == "3"){
+	// 	return ret.navigate("testword_test3.jsp");
+	// }
+	// 画面へ結果を返す
+	return ret.navigate("testword_test_e.jsp");
+
+};

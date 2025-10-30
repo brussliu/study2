@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqls>
+<sqls>
+
+	<sql id="insertDocumentInfo">
+		insert into "DOC_資料情報" (
+			"資料番号"
+		, "ステータス"
+		, "有効期限"
+		, "大分類"
+		, "中分類"
+		, "小分類"
+		, "細分類"
+		, "コメント"
+		, "登録ID"
+		, "更新ID"
+		, "登録日時"
+		, "更新日時"
+		)values(
+			:document_no,
+			:status,
+			:expiration_date,
+			:div1,
+			:div2,
+			:div3,
+			:div4,
+			:comment,
+			:userid,
+			:userid,
+			CURRENT_TIMESTAMP,
+			CURRENT_TIMESTAMP
+		)
+	</sql>
+
+	<sql id="updateDocumentInfo">
+		update "DOC_資料情報"
+		set 
+			  "ステータス" = :status
+			, "有効期限" = :expiration_date
+			, "大分類" = :div1
+			, "中分類" = :div2
+			, "小分類" = :div3
+			, "細分類" = :div4
+			, "コメント" = :comment
+			, "更新ID" = :userid
+			, "更新日時" = CURRENT_TIMESTAMP
+		where
+			"資料番号" = :document_no
+	</sql>
+
+	<sql id="insertDocumentDetailInfo">
+		insert into "DOC_資料詳細情報" (
+		  "資料番号"
+		, "枝番号"
+		, "拡張子"
+		, "元ファイル"
+		, "縮略ファイル500"
+		, "縮略ファイル200"
+		, "縮略ファイル50"
+		, "コメント"
+		, "登録ID"
+		, "更新ID"
+		, "登録日時"
+		, "更新日時"
+		)values(
+			:document_no,
+			:document_sub_no,
+			:suffix,
+			:content,
+			:content_tb500,
+			:content_tb200,
+			:content_tb50,
+			:comment,
+			:userid,
+			:userid,
+			CURRENT_TIMESTAMP,
+			CURRENT_TIMESTAMP
+		)
+	</sql>
+
+	<sql id="updateDocumentDetailInfo">
+		update "DOC_資料詳細情報" 
+			set
+			"拡張子" = (select "拡張子" from "COM_臨時画像" where "連番" = :seq)
+			, "元ファイル" = (select "元ファイル" from "COM_臨時画像" where "連番" = :seq)
+			, "縮略ファイル500" = (select "縮略ファイル500" from "COM_臨時画像" where "連番" = :seq)
+			, "縮略ファイル200" = (select "縮略ファイル200" from "COM_臨時画像" where "連番" = :seq)
+			, "縮略ファイル50" = (select "縮略ファイル50" from "COM_臨時画像" where "連番" = :seq)
+			, "登録ID" = :userid
+			, "更新日時" = CURRENT_TIMESTAMP
+		where
+			"資料番号" = :document_no
+			and
+		    "枝番号" = :document_sub_no
+	</sql>
+
+	<sql id="searchDocumentInfo">
+		select 
+			"資料番号" as doc_no
+			, case when "ステータス" = '1' then '1.有効'
+			       when "ステータス" = '9' then '9.無効'
+			  else '' end as status
+			, "有効期限" as doc_vp
+			, "大分類" as div1
+			, "中分類" as div2
+			, "小分類" as div3
+			, "細分類" as div4
+			, "コメント" as comment
+		from 
+			"DOC_資料情報" 
+		where
+			1 = 1
+		<if exists="doc_no"> AND "資料番号" = :doc_no</if>
+		<if exists="docnolist"> AND "資料番号" in ( @docnolist )</if>
+		<if exists="div1"> AND "大分類" = :div1</if>
+		<if exists="div2"> AND "中分類" = :div2</if>
+		<if exists="div3"> AND "小分類" = :div3</if>
+		<if exists="div4"> AND "細分類" = :div4</if>
+		<if exists="keyword"> 
+			AND (
+				"大分類" like concat('%', :keyword ,'%') or
+				"中分類" like concat('%', :keyword ,'%') or
+				"小分類" like concat('%', :keyword ,'%') or
+				"細分類" like concat('%', :keyword ,'%') or
+				"コメント" like concat('%', :keyword ,'%')
+			)
+		</if>
+
+	</sql>
+
+	<sql id="searchDocumentDetailInfo">
+		select 
+			"資料番号" as doc_no
+			, "枝番号" as doc_sub_no
+			, "拡張子" as suffix
+			, "元ファイル" as content
+			, "縮略ファイル500" as content_tb500
+			, "縮略ファイル200" as content_tb200
+			, "縮略ファイル50" as content_tb50
+			, case when "コメント" is null then ''
+			  else "コメント" end as comment
+		from 
+			"DOC_資料詳細情報"
+		where
+			1 = 1
+			<if exists="doc_no"> AND "資料番号" = :doc_no</if>
+			<if exists="docnolist"> AND "資料番号" in ( @docnolist )</if>
+		order by
+			"資料番号", "枝番号"
+	</sql>
+
+	<sql id="deleteDocumentInfo">
+		delete from "DOC_資料情報"
+		where 
+			"資料番号" = :doc_no
+	</sql>
+
+	<sql id="deleteDocumentDetailInfo">
+		delete from "DOC_資料詳細情報"
+		where 
+			"資料番号" = :doc_no
+	</sql>
+
+	<sql id="searchDocument">
+		select 
+			"資料番号" as doc_no
+			, "枝番号" as doc_sub_no
+			, "拡張子" as suffix
+			, "元ファイル" as content
+			, "縮略ファイル500" as content_tb500
+			, "縮略ファイル200" as content_tb200
+			, "縮略ファイル50" as content_tb50
+			, "コメント" as comment
+		from 
+			"DOC_資料詳細情報"
+		where
+			 "資料番号" = :doc_no
+			 and
+			 "枝番号" = :sub_no
+	</sql>
+
+	<sql id="searchDocumentDiv1">
+		select 
+			distinct
+			"大分類" as value,
+			"大分類" as text
+		from 
+			"DOC_資料情報" 
+		where
+			"大分類" is not null
+			and
+			trim("大分類") &lt;&gt; ''
+		order by
+			"大分類"
+	</sql>
+
+	<sql id="searchDocumentDiv2">
+		select 
+			distinct
+			"中分類" as value,
+			"中分類" as text
+		from 
+			"DOC_資料情報" 
+		where
+			"大分類" = :div1
+		order by
+			"中分類"
+	</sql>
+
+	<sql id="searchDocumentDiv3">
+		select 
+			distinct
+			"小分類" as value,
+			"小分類" as text
+		from 
+			"DOC_資料情報" 
+		where
+			"大分類" = :div1
+			and
+			"中分類" = :div2
+		order by
+			"小分類"
+	</sql>
+
+	<sql id="searchDocumentDiv4">
+		select 
+			distinct
+			"細分類" as value,
+			"細分類" as text
+		from 
+			"DOC_資料情報" 
+		where
+			"大分類" = :div1
+			and
+			"中分類" = :div2
+			and
+			"小分類" = :div3
+		order by
+			"細分類"
+	</sql>
+</sqls>
+

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqls>
+<sqls>
+	
+	<sql id="searchUserInfo" >
+		select 
+			"ユーザーID" as userid
+		, "パスワード" as password
+		, "SmartID" as smartid
+		, "店舗ID" as shopid
+		, "ロール" as role
+		, "廃止フラグ" as del_flg
+		, "使用開始日付" as date_from
+		, "使用終了日付" as date_to
+		from
+			"MST_ユーザー情報"
+		where 
+			"ユーザーID" = :userid
+			and
+			"パスワード" = :passwword
+			and
+			"使用開始日付" &lt; CURRENT_TIMESTAMP
+			and
+			"使用終了日付" &gt; CURRENT_TIMESTAMP
+			and
+			"廃止フラグ" &lt;&gt; '1'
+	</sql>
+
+	<sql id="searchShoplistInfo" >
+		select 
+			"ユーザーID" as userid
+		, "パスワード" as password
+		, "SmartID" as smartid
+		, "店舗ID" as shopid
+		, "ロール" as role
+		, "廃止フラグ" as del_flg
+		, "使用開始日付" as date_from
+		, "使用終了日付" as date_to
+		from
+			"MST_ユーザー情報"
+		where 
+			"ユーザーID" = :userid
+			and
+			"SmartID" = :smartid
+			and
+			"使用開始日付" &lt; CURRENT_TIMESTAMP
+			and
+			"使用終了日付" &gt; CURRENT_TIMESTAMP
+			and
+			"廃止フラグ" &lt;&gt; '1'
+	</sql>
+
+	<sql id="searchShopRole" >
+		select 
+			"ユーザーID" as userid
+		, "パスワード" as password
+		, "SmartID" as smartid
+		, "店舗ID" as shopid
+		, "ロール" as role
+		, "廃止フラグ" as del_flg
+		, "使用開始日付" as date_from
+		, "使用終了日付" as date_to
+		from
+			"MST_ユーザー情報"
+		where 
+			"ユーザーID" = :userid
+			and
+			"SmartID" = :smartid
+			and
+			"店舗ID" = :shopid
+			and
+			"使用開始日付" &lt; CURRENT_TIMESTAMP
+			and
+			"使用終了日付" &gt; CURRENT_TIMESTAMP
+			and
+			"廃止フラグ" &lt;&gt; '1'
+	</sql>
+
+	<sql id="searchShopRoleInfoList" >
+		select 
+			"権限ID" as authority_id
+		, "権限種別" as authority_type
+		, "権限区分" as authority_div
+		from
+			"MST_権限情報"
+		where 
+			"ロール" = :role
+			and
+			"店舗ID" = :shopid
+	</sql>
+	<sql id="insertOptkey" >
+		insert into "COM_操作キー" (
+			  "区分"
+			, "キー"
+			, "登録ID"
+			, "更新ID"
+			, "登録日時"
+			, "更新日時"
+		) values (
+			  :kbn
+			, :key
+			, :userid
+			, :userid
+			, CURRENT_TIMESTAMP
+			, CURRENT_TIMESTAMP
+		)
+	</sql>
+
+	<sql id="deleteOptkey" >
+		delete from "COM_操作キー" 
+		where
+			"区分" = :kbn
+			and
+			(
+			"結果" is null
+			or
+			"結果" = ''
+			)
+	</sql>
+
+	<sql id="selectOptkey" >
+		select 
+			"連番" as seq,
+			"キー" as key
+		from "COM_操作キー" 
+		where
+			"区分" = :kbn
+			and
+			(
+			"結果" is null
+			or
+			"結果" = ''
+			)
+		order by "連番"
+		limit 1
+	</sql>
+
+	<sql id="optkeyDone" >
+		update "COM_操作キー" 
+		set "結果" = '1'
+		where
+			"連番" = :seq
+	</sql>
+
+	<sql id="insertTempPicFromSmartphone">
+		insert into "COM_臨時画像" (
+			  "区分"
+			, "元ファイル"
+			, "拡張子"
+			, "縮略ファイル500"
+			, "縮略ファイル200"
+			, "縮略ファイル50"
+			, "登録ID"
+			, "更新ID"
+			, "登録日時"
+			, "更新日時"
+		)values(
+			'1',
+			:content,
+			:suffix,
+			:content_tb500,
+			:content_tb200,
+			:content_tb50,
+			null,
+			null,
+			CURRENT_TIMESTAMP,
+			CURRENT_TIMESTAMP
+		)
+	</sql>
+
+	<sql id="selectTempPicFromSmartphone">
+		select
+			"連番" as seq,
+			"区分" as kbn,
+			"元ファイル" as content,
+			"拡張子" as suffix,
+			"縮略ファイル500" as content_tb500,
+			"縮略ファイル200" as content_tb200,
+			"縮略ファイル50" as content_tb50
+		from 
+			"COM_臨時画像"
+		where
+			"登録ID" is null
+			and
+			"区分" = '1'
+		order by
+			"連番"
+	</sql>
+
+	<sql id="updateTempPicFromSmartphone">
+		update
+			"COM_臨時画像"
+		set
+			"登録ID" = :userid,
+			"更新ID" = :userid,
+			"更新日時" = CURRENT_TIMESTAMP
+		where
+			"区分" = '1'
+			and
+			"連番" = :seq
+	</sql>
+
+</sqls>
+
