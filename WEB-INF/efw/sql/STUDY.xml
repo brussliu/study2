@@ -1501,7 +1501,7 @@
 					book
 					, kind
 					, level 
-			) 
+			) as t1
 		group by
 			book, kind, level
 	</sql>
@@ -1519,13 +1519,13 @@
         
         , (
             select count(*) from (
-                select book,classification,wordseq from "V_単語情報リスト" where 
-                    kind in ('A.勉強','B.中日訳英','C.音訳英','D.英訳中') and 
-                    level = '1.簡単' AND wrong_flg = '-' 
-                group by book,classification,wordseq 
-                having count(distinct kind) = 4
-            )
-        )
+                select book,classification,wordseq from "V_単語情報リスト" where
+                    kind in ('A.勉強','B.中日訳英','C.音訳英','D.英訳中') and
+                    level = '1.簡単' AND wrong_flg = '-'
+				group by book,classification,wordseq
+				having count(distinct kind) = 4
+            ) as t1
+		   )
         , (
             select count(*) from (
                 select book,classification,wordseq from "V_単語情報リスト" where 
@@ -1537,7 +1537,7 @@
                 sum(case when wrong_flg = '○' then 1 else 0 end) &lt; 4
                 
 
-            )
+            )  as t2
         )
         , (
             select count(*) from (
@@ -1546,7 +1546,7 @@
                     level = '1.簡単' AND wrong_flg = '○' 
                 group by book,classification,wordseq 
                 having count(distinct kind) = 4
-            )
+            ) as  t3
         ),
         null,
         null,
