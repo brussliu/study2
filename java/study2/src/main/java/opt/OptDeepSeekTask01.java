@@ -16,7 +16,7 @@ public class OptDeepSeekTask01{
 	
 	private Logger logger = Logger.getLogger(OptDeepSeekTask01.class);
 
-	private static final String APP_KEY = "sk-61603a4dec9e493ba7ce85e24a5e2766";
+	private static final String APP_KEY = "sk-fb2d67c97e1049dcab8292aad67afaad";
 	 
 	private static final ObjectMapper mapper = new ObjectMapper();
 	
@@ -42,7 +42,7 @@ public class OptDeepSeekTask01{
 		        "    \"E\": \"选项E\"",
 		        "    \"F\": \"选项F\"",
 		        "  },",
-		        "  \"answer\": \"A\",",
+		        "  \"answer\": \"正确答案选项\",",
 		        "  \"analysis\": \"解析内容\"",
 		        "}",
 		        "只返回JSON，不要其他文字。"
@@ -68,9 +68,9 @@ public class OptDeepSeekTask01{
 		
 		
 		try {
-			
+
 			Question question = mapper.readValue(response, Question.class);
-			
+
 			String answerNo = question.getAnswer();
 			
 			Map<String, String> itemMap = question.getOptions();
@@ -111,7 +111,8 @@ public class OptDeepSeekTask01{
 			updateSQL.append("WHERE ").append("\r\n");
 			updateSQL.append("\"書籍\" = '" + book + "' AND ").append("\r\n");
 			updateSQL.append("\"分類\" = '" + classification + "' AND ").append("\r\n");
-			updateSQL.append("\"単語SEQ\" = " + wordseq + " ").append("\r\n");
+			updateSQL.append("\"単語SEQ\" = '" + wordseq + "' AND ").append("\r\n");
+			updateSQL.append("\"更新日時\" = CURRENT_TIMESTAMP").append("\r\n");
 			logger.info("====================================");
 			logger.info(updateSQL.toString());
 			logger.info("====================================");

@@ -1,3 +1,4 @@
+
 package opt;
 
 import java.io.IOException;
@@ -13,7 +14,7 @@ public class OptDeepSeekTask02{
 	
 	private Logger logger = Logger.getLogger(OptDeepSeekTask02.class);
 
-	private static final String APP_KEY = "sk-61603a4dec9e493ba7ce85e24a5e2766";
+	private static final String APP_KEY = "sk-fb2d67c97e1049dcab8292aad67afaad";
 	 
 //	private static final ObjectMapper mapper = new ObjectMapper();
 	
@@ -39,6 +40,7 @@ public class OptDeepSeekTask02{
         
         try {
         	logger.info("DeepSeekの質問：" + taskAnswer);
+        	//调用回答方法
             String response = client.chatCompletion(taskAnswer);
             logger.info("DeepSeekの回答：" + response);
             
@@ -55,7 +57,7 @@ public class OptDeepSeekTask02{
 		
 		
 		try {
-			
+			//转成HTML格式
 			String html = HtmlUtil.toHtml(response);
 			logger.info(html.toString());
 

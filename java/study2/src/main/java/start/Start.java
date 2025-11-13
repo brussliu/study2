@@ -16,23 +16,22 @@ public class Start {
 	public static PropertiesReader propertiesReader;
 	
 	  public static void main(String[] args) {
-	       
+		  propertiesReader.configures();
+
 //		  PropertyConfigurator.configure("/usr/local/tomcat/webapps/study2/java/log4j.properties");
-//		  PropertiesReader.configure("/usr/local/tomcat/webapps/study2/java/config.properties");
-		  
-		  
-		  PropertyConfigurator.configure("D:\\apache-tomcat-9.0.30\\webapps\\study2\\java\\log4j.properties");
-		  PropertiesReader.configure("D:\\apache-tomcat-9.0.30\\webapps\\study2\\java\\config.properties");
+//		  PropertiesReader.configure("/usr/local/tomcat/webapps/study2/java/config.properties")
+		  // PropertyConfigurator.configure("D:\\apache-tomcat-9.0.30\\webapps\\study2\\java\\log4j.properties");
+		  // PropertiesReader.configure("D:\\apache-tomcat-9.0.30\\webapps\\study2\\java\\config.properties");
 //		  PropertiesReader.configure("D:\\workspace\\study2\\src\\main\\resources\\config.properties");
 		  
-//		  args = new String[7];
-//		  args[0] = "OptDeepSeekTask02";
-//		  args[1] = "111";
-//		  args[2] = "222";
-//		  args[3] = "333";
-//		  args[4] = "method";
-//		  args[5] = "German";
-//		  args[6] = "word";
+		  // args = new String[7];
+		  // args[0] = "OptDeepSeekTask02";
+		  // args[1] = "111";
+		  // args[2] = "222";
+		  // args[3] = "333";
+		  // args[4] = "method";
+		  // args[5] = "German";
+		  // args[6] = "word";
 		  
 		  logger.info("#####################################################");
 		  logger.info(Arrays.toString(args));
