@@ -1,28 +1,16 @@
 package core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.volcengine.ark.runtime.model.completion.chat.ChatCompletionRequest;
-import com.volcengine.ark.runtime.model.completion.chat.ChatMessage;
-import com.volcengine.ark.runtime.model.completion.chat.ChatMessageRole;
-import com.volcengine.ark.runtime.service.ArkService;
-import common.PropertiesReader;
 import db.DBManager;
 import deepseek.task01.Question;
-import opt.AbstractBusinessTask;
 import org.apache.log4j.Logger;
-
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-/**
- * 继承抽象父类，实现使用Doubao SDK生成选择题的标准化流程
- */
+
 public class OptTask01 extends AiTaskExecutor {
     private Logger logger = Logger.getLogger(OptTask01.class);
-    private   String API_KEY = PropertiesReader.DOUBAO_APIKEY;
-    private   String BASE_URL  = PropertiesReader.DOUBAO_URL ;
-    private   String API_MODEL  = PropertiesReader.DOUBAO_MODEL;
+
     private static final ObjectMapper mapper = new ObjectMapper();
 
     @Override
@@ -51,8 +39,8 @@ public class OptTask01 extends AiTaskExecutor {
 
 
     @Override
-    protected String callAPI(String prompt) throws Exception {
-        // 调用Doubao API
+    protected String callAPI(String prompt)  {
+        // 调用 API
         AiClient client = AiClientFactory.getClient(parameter[5]);
 
         logger.info("ai连接成功");
@@ -138,12 +126,13 @@ public class OptTask01 extends AiTaskExecutor {
     }
 
     @Override
-    protected void finish() throws Exception {
-
+    protected void finish()  {
+        logger.info("流程结束");
     }
 
     // 保持原execute方法兼容（调用标准化流程）
     public void excute(String[] parameter) throws Exception {
+        System.out.println("parameter:"+parameter.toString());
         this.setParameter(parameter);
         this.process();
     }

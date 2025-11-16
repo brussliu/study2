@@ -1,21 +1,12 @@
 package core;
 
-import com.volcengine.ark.runtime.model.completion.chat.ChatCompletionRequest;
-import com.volcengine.ark.runtime.model.completion.chat.ChatMessage;
-import com.volcengine.ark.runtime.model.completion.chat.ChatMessageRole;
-import com.volcengine.ark.runtime.service.ArkService;
-import common.PropertiesReader;
+
 import db.DBManager;
-import opt.AbstractBusinessTask;
 import org.apache.log4j.Logger;
 import util.HtmlUtil;
-
 import java.util.ArrayList;
-import java.util.List;
 
-/**
- * 继承抽象父类，实现使用Doubao SDK生成选择题的标准化流程
- */
+
 public class OptTask02 extends AiTaskExecutor {
     private Logger logger = Logger.getLogger(OptTask02.class);
     String key;
@@ -35,8 +26,8 @@ public class OptTask02 extends AiTaskExecutor {
 
 
     @Override
-    protected String callAPI(String prompt) throws Exception {
-        // 调用Doubao API
+    protected String callAPI(String prompt)  {
+        // 调用AI API
         AiClient client = AiClientFactory.getClient(parameter[5]);
 
         logger.info("ai连接成功");
@@ -57,7 +48,7 @@ public class OptTask02 extends AiTaskExecutor {
     }
 
     @Override
-    protected void handleResult(Object parsedResult) throws Exception {
+    protected void handleResult(Object parsedResult)  {
         // 从参数获取必要信息
         String book = parameter[0];
         String classification = parameter[1];
@@ -82,7 +73,7 @@ public class OptTask02 extends AiTaskExecutor {
     }
 
     @Override
-    protected void finish() throws Exception {
+    protected void finish()  {
         // 标记任务完成
         this.key = parameter[4]; // 保存key供finish使用
         String updateSQL = "UPDATE \"COM_JAVA操作情報\" " +
@@ -92,6 +83,7 @@ public class OptTask02 extends AiTaskExecutor {
         ArrayList<Object> params = new ArrayList<>();
         params.add(key);
         DBManager.update(updateSQL, params);
+        logger.info("流程结束");
     }
 
     // 保持原execute方法兼容（调用标准化流程）

@@ -23,11 +23,11 @@ public class AiClientFactory {
             switch (ai.toLowerCase()){
                        case "deepseek" :
                            apiConfig = new ApiConfig(ai ,PropertiesReader.DEEPSEEK_MODEL,PropertiesReader.DEEPSEEK_APIKEY,PropertiesReader.DEEPSEEK_URL);
-
+                           logger.info("deepseek开始连接");
                            return new DeepSeekAiClient(apiConfig);
                        case "doubao" :
                            apiConfig = new ApiConfig(ai ,PropertiesReader.DOUBAO_MODEL,PropertiesReader.DOUBAO_APIKEY,PropertiesReader.DOUBAO_URL);
-
+                           logger.info("doubao开始连接");
                            return new DoubaoAiClient(apiConfig);
                        default:
                            throw new IllegalArgumentException("暂未导入: " + ai);}
