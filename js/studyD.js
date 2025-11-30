@@ -4,8 +4,30 @@ function beginTest(){
 
 	setContent();
 
+    highlightWord();
 }
 
+function highlightWord() {
+
+    var word = $('#hiddenWordE').val();
+    console.log(111);
+    // 获取原始span元素
+    const question = $('#question');
+    console.log(222);
+    // 获取原始HTML内容
+    const originalHtml = question.html();
+    console.log(333);
+    // 使用正则表达式全局匹配目标单词，不区分大小写
+    // 使用单词边界\b确保匹配完整单词[citation:3]
+    const regex = new RegExp(`\\b${word}\\b`, 'gi');
+    console.log(444);
+    // 替换匹配的单词，保留原文本中的空格和标点
+    const newHtml = originalHtml.replace(regex, '<span class="highlight">$&</span>');
+    console.log(555);
+    // 更新span内容
+    question.html(newHtml);
+    console.log(666);
+}
 
 // タイトル表示
 function showNumber(){
@@ -39,6 +61,8 @@ function setContent(){
 
     $("#wordC3").next().html($('#hiddenItem3').val());
     $("#wordC4").next().html($('#hiddenItem4').val());
+
+    //highlightWord();
 
     //$("#wordC1").focus();
 
@@ -132,6 +156,9 @@ function checkResult(obj){
         overNG(obj);
         
     }
+
+    
+    $('#explain').show();
 
     $('#btnnext').show();
 

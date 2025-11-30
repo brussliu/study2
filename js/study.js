@@ -6,8 +6,19 @@ function beginTest(){
 
 	showWord();
 
+    openAIpage();
+
 }
 
+function openAIpage(){
+
+    var kind = $('#hiddenKind').val();
+    if(kind == 'A.勉強'){
+
+        Efw('testword_openaipage');
+    }
+    
+}
 
 // タイトル表示
 function showNumber(){
