@@ -76,13 +76,14 @@ testword_init.fire = function (params) {
 	ret.eval("changeStyleForTestInfo();");
 
 
-
+	var d = new Date().format("yyyyMMdd");
 	//勉強時間取得studytime
 	//  检索
 	var selectResult2 = db.select(
 		"STUDY",
 		"selectStudyTime",
 		{
+			d : d
 		}
 	).getSingle();
 

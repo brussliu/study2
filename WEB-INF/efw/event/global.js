@@ -36,15 +36,15 @@ function isNotBlank(value){
 
 function excuteClass(java, params){
 
-	cmd.execute(params.unshift("java", "-classpath", "D:/apache-tomcat-9.0.30/webapps/study2/java/", java));
-	//cmd.execute(params.unshift("java", "-classpath", "/usr/local/tomcat/webapps/study2/java/", java));
+	//cmd.execute(params.unshift("java", "-classpath", "D:/apache-tomcat-9.0.30/webapps/study2/java/", java));
+	cmd.execute(params.unshift("java", "-classpath", "/usr/local/tomcat/java/", java));
 
 }
 
 function excuteJar(java, params){
 
-	params.unshift("java", "-jar", "D:/apache-tomcat-9.0.30/webapps/study2/java/study2.jar", java);
-	//params.unshift("java", "-jar", "/usr/local/tomcat/webapps/study2/java/study2.jar", java);
+	//params.unshift("java", "-jar", "D:/apache-tomcat-9.0.30/webapps/study2/java/study2.jar", java);
+	params.unshift("java", "-jar", "/usr/local/tomcat/java/study2.jar", java);
 	
 	cmd.execute(params);
 

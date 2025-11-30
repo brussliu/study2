@@ -17,11 +17,8 @@ word_expwordbyai.fire = function (params) {
 	var classification = params["classification"];
 	var wordseq = params["wordseq"];
 
-
-	"AAAAAAAAAAAAAAAAAAAAAAAA".debug("AAAAAAAAAAAAAAAAAAAAAAAA");
 	ret = makeHtml(ret, book, classification, wordseq, true);
-	
-	"BBBBBBBBBBBBBBBBBBBBBBBB".debug("BBBBBBBBBBBBBBBBBBBBBBBB");
+
 	// 画面へ結果を返す
 	return ret;
 
@@ -41,52 +38,76 @@ function makeHtml(ret, book, classification, wordseq, flg){
 	).getArray();
 
 	var word_e = selectResult[0]["word_e"];
-	var ai_html = selectResult[0]["ai_text_ch"];
+	var ai1_content_ch = selectResult[0]["ai1_content_ch"];
+	var ai1_content_jp = selectResult[0]["ai1_content_jp"];
+	var ai2_content_ch = selectResult[0]["ai2_content_ch"];
+	var ai2_content_jp = selectResult[0]["ai2_content_jp"];
 
-	"1111111111111111111111111111".debug("111111111111111111111111111111");
+	ai1_content_ch.debug("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+	ai1_content_jp.debug("JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ");
 
-	if(ai_html != null && ai_html != ""){
+	if(
+		(ai1_content_ch != null && ai1_content_ch != "") ||
+		(ai1_content_jp != null && ai1_content_jp != "") 
+	){
 
-		"99999999999999999999999999999999".debug("99999999999999999999999999999999");
-		ret.runat("#word_inputdialog").remove("div").append("<div>" + ai_html + "</div>").withdata(selectResult);
-		ret.eval("word_inputdialog.dialog('open');");
+		"CCCCCCCCCCCCCCCCCCCCCCCCC".debug("CCCCCCCCCCCCCCCCCCCCCCCCC");
+
+		session.set("WORD_BOOK", book);
+		session.set("WORD_CLASSIFICATION", classification);
+		session.set("WORD_WORDSEQ", wordseq);
+
+		ret.eval("opAiContentPage('" + book + "', '" + classification + "', "+ wordseq + ")");
 
 		return ret;
+	}
 
-	}else{
+	var threads = new Threads(2);
 
-			if(flg == false){
-
-				return ret;
+	if(ai1_content_ch == null || ai1_content_ch == ""){
+		// makeHtml(book, classification, wordseq, word_e, "ai1ch");
+		threads.add(
+			{ 
+				index: i, 
+				book: book, 
+				classification: classification, 
+				wordseq: wordseq, 
+				word_e: word_e, 
+				flg: "ai1ch",
+				run: makeWordHtmlByAi 
 			}
-			"2222222222222222222222222222222".debug("222222222222222222222222222222");
-			var key = "OptDeepSeekTask02";
-			makeKey(key);
-
-			"3333333333333333333333333333333333".debug("33333333333333333333333333333333");
-
-			var args = new Array();
-			args[0] = book;
-			args[1] = classification;
-			args[2] = wordseq;
-			args[3] = word_e;
-			args[4] = key;
-
-			"44444444444444444444444444444444".debug("4444444444444444444444444444444");
-
-			excuteJar("OptDeepSeekTask02",args);
-
-			"555555555555555555555555555555555".debug("55555555555555555555555555");
-
-			makeHtml(ret, book, classification, wordseq, false);
-
-
-			"6666666666666666666666666".debug("66666666666666666666666666");
-			// setTimeout(() => {
-			// 	makeHtml(ret, book, classification, wordseq, false);
-			// }, 10000);
-
+		);
 
 	}
+	if(ai1_content_jp == null || ai1_content_jp == ""){
+		threads.add(
+			{ 
+				index: i, 
+				book: book, 
+				classification: classification, 
+				wordseq: wordseq, 
+				word_e: word_e, 
+				flg: "ai1jp",
+				run: makeWordHtmlByAi 
+			}
+		);
+	}
+
+	threads.run();
+
+	return ret;
+	
 }
 
+// function makeHtml(book, classification, wordseq, word_e, flg){
+
+// 	var args = new Array();
+// 	args[0] = book;
+// 	args[1] = classification;
+// 	args[2] = wordseq;
+// 	args[3] = word_e;
+// 	args[4] = flg;
+
+// 	excuteJar("OptDeepSeekTask02",args);
+
+// }

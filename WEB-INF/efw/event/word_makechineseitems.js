@@ -9,6 +9,8 @@ word_makechineseitems.fire = function (params) {
 
 	var ret = new Result();
 
+	var threadCount = 5;
+
 	// セッションチェック
 	if(sessionCheck(ret) == false){return ret};
 
@@ -26,14 +28,7 @@ word_makechineseitems.fire = function (params) {
 		}
 	).getArray();
 
-	var threads = new Threads(10);
-	// threads.add({ index: 0, successed: false, run: operate });
-	// threads.add({ index: 1, successed: false, run: operate });
-	// threads.add({ index: 2, successed: false, run: operate });
-	// threads.add({ index: 3, successed: false, run: operate });
-	// threads.add({ index: 4, successed: false, run: operate });
-
-
+	var threads = new Threads(threadCount);
 
 	// 単語テスト詳細情報
 	for(var i = 0;i < selectResult.length;i++){
@@ -44,17 +39,16 @@ word_makechineseitems.fire = function (params) {
 
 		var word_e = selectResult[i]["word_e"];
 
-		if((i+1) % 10 == 10){
+		if((i+1) % threadCount == threadCount){
 			threads.run();
-
-			threads = new Threads(10);
+			threads = new Threads(threadCount);
 		}
 
 		threads.add(
 			{ 
 				index: i, successed: false, 
 				book: book, classification: classification, wordseq: wordseq, word_e: word_e, 
-				run: operate 
+				run: getItems 
 			}
 		);
 
@@ -62,7 +56,7 @@ word_makechineseitems.fire = function (params) {
 
 	threads.run();
 
-	ret.eval("searchWord();");
+	// ret.eval("searchWord();");
 	
 	// 画面へ結果を返す
 	return ret;
@@ -70,7 +64,7 @@ word_makechineseitems.fire = function (params) {
 };
 
 
-function operate() {
+function getItems() {
 
 	if(this.word_e != null && this.word_e != ""){
 

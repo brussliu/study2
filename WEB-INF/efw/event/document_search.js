@@ -74,6 +74,7 @@ document_search.fire = function (params) {
 		"	<td style='width: 200px;'>{div2}</td>" +
 		"	<td style='width: 200px;'>{div3}</td>" +
 		"	<td style='width: 200px;'>{div4}</td>" +
+		"	<td style='width: 400px;'>{comment}</td>" +
 		"	<td style='width: 580px;'>" +
 				subhtml +
 		"	</td>" +
