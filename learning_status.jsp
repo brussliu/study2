@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>単語状況確認</title>
+        <title>勉強状況確認</title>
         <efw:Client />
         <link rel="stylesheet" href="css/common.css" type="text/css" />
         <link href="favicon.ico" rel="icon" type="image/x-icon" />
@@ -52,8 +52,8 @@
             }
 
 
-            function searchWord(){
-                Efw('word_search');
+            function search(){
+                Efw('learning_status_search');
             }
 
             function changeStyleForWordInfo(){
@@ -79,83 +79,7 @@
 
             }
 
-            function downloadVoice(){
 
-                Efw('word_downloadvoice');
-            }
-
-            function getChineseExplain(){
-
-                Efw('word_translate');
-
-            }
-
-            function makeChineseItems(){
-
-                Efw('word_makechineseitems');
-
-                setTimeout(function(){
-                    searchWord();
-                    }, 1000);
-                ;
-            }
-
-            function updateItem(no,obj){
-                
-                var book =              $(obj).parent().children().eq(0).children().eq(0).html();
-                var classification =    $(obj).parent().children().eq(1).children().eq(0).html();
-                var wordseq =           $(obj).parent().children().eq(2).children().eq(0).html();
-
-                var itemvalue = $(obj).children().eq(0).html();
-                if(no == 1){
-                    itemvalue = $(obj).children().eq(0).children().eq(0).html();
-                }
-                var input = prompt("内容を修正してください：", itemvalue);
-
-                var flg = null;
-
-                if(no == 1){
-                    flg = "wordE";
-                }else if(no == 2){
-                    flg = "wordJ";
-                }else if(no == 3){
-                    flg = "wordC";
-                }else if(no == 4){
-                    flg = "sen1E";
-                }else if(no == 5){
-                    flg = "sen1J";
-                }else if(no == 6){
-                    flg = "sen1C";
-                }else if(no == 7){
-                    flg = "sen2E";
-                }else if(no == 8){
-                    flg = "sen2J";
-                }else if(no == 9){
-                    flg = "sen2C";
-                }
-
-                if(input != null){
-                    Efw('word_updateitem',{book : book, classification : classification, wordseq : wordseq, flg : flg, content : input});
-                }
-            }
-
-            function openWord(obj){
-
-                var word = $(obj).children().eq(0).html();
-
-                const windowFeatures =
-                "toolbar=no," + 
-                "location=no," + 
-                "directories=no," + 
-                "status=no," + 
-                "menubar=no," + 
-                "scrollbars=yes," + 
-                "resizable=yes," + 
-                "width=1920," + 
-                "height=1080";
-
-                window.open("https://ejje.weblio.jp/content/" + word, 'fullscreenWindow', windowFeatures);
-            }
 
             function checkWrong(obj){
 
@@ -244,6 +168,26 @@
                                         <option value=""></option>
                                     </select>
                                 </td>
+                                <td style="width: 200px;">
+                                    種別:
+                                    <select id="opt_kind" style="width: 100px;" >
+                                        <option value=""></option>
+                                        <option value="A.勉強">A.勉強</option>
+                                        <option value="B.中日訳英">B.中日訳英</option>
+                                        <option value="C.音訳英">C.音訳英</option>
+                                        <option value="D.英訳中">D.英訳中</option>
+                                    </select>
+                                </td>
+                                <td style="width: 200px;">
+                                    正確率:
+                                    <select id="opt_accuracy" style="width: 100px;" >
+                                        <option value=""></option>
+                                        <option value="1">100%</option>
+                                        <option value="2">80%～100%</option>
+                                        <option value="3">50%～80%</option>
+                                        <option value="4">50%未満</option>
+                                    </select>
+                                </td>
                                 <td style="width: 250px;">
                                     キーワード:
                                     <input type="text" style="width: 120px;height: 25px;" id="keyword">
@@ -254,48 +198,31 @@
                                     <input type="checkbox" id="wordstatus3" value="3" onchange="checkWrong(this);"/>&nbsp;勉強済
                                 </td>
                                 <td></td>
-                                <td style="width: 180px;"><button onclick="getChineseExplain();">中日翻訳取得</button></td>
-                                <td style="width: 180px;"><button onclick="downloadVoice();">音声ダウンロード</button></td>
-                                <td style="width: 180px;"><button onclick="makeChineseItems();">中訳英データ作成</button></td>
-                                <td style="width: 130px;"><button style="width: 120px;" onclick="searchWord();">単語検索</button></td>
+                                <td style="width: 130px;"><button style="width: 120px;" onclick="search();">検索</button></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
                 <div class="c_detail_header" style="overflow: hidden;" id="wordinfoheaddiv">
-                    <table class="table_detail_header" style="width: 2635px;table-layout: fixed;" >
+                    <table class="table_detail_header" style="table-layout: fixed;" >
                         <thead>
                             <tr class="header">
                                 <th style="width: 150px;">書籍</th>
                                 <th style="width: 80px;">分類</th>
                                 <th style="width: 80px;">単語SEQ</th>
 
-                                <th style="width: 250px;background-color: yellow;">単語</th>
-                                <th style="width: 200px;background-color: yellow;">日本語</th>
-                                <th style="width: 500px;background-color: yellow;">中国語</th>
+                                <th style="width: 250px;">単語</th>
 
-                                <th style="width: 200px;background-color: greenyellow;">例句1</th>
-                                <th style="width: 200px;background-color: greenyellow;">日本語</th>
-                                <th style="width: 500px;background-color: greenyellow;">中国語</th>
+                                <th style="width: 150px;">テスト種別</th>
 
-                                <th style="width: 100px;background-color: lightgray;">三級単語</th>
-                                <th style="width: 100px;background-color: lightgray;">三級熟語</th>
-                                <th style="width: 100px;background-color: lightgray;">キクタン</th>
-                                <th style="width: 100px;background-color: lightgray;">キクジュク</th>
-                                <th style="width: 100px;background-color: lightgray;">二級単語</th>
-                                <th style="width: 100px;background-color: lightgray;">二級熟語</th>
-                                <th style="width: 100px;background-color: lightgray;">キクタン準２級</th>
-                                <th style="width: 100px;background-color: lightgray;">キクタンBasic</th>
-                                <th style="width: 100px;background-color: lightgray;">キクタン２級</th>
+                                <th style="width: 100px;color: red;background-color: aqua;">時間</th>
+                                <th style="width: 100px;color: red;background-color: aqua;">テスト回数</th>
+                                <th style="width: 100px;color: red;background-color: aqua;">全部正確回数</th>
+                                <th style="width: 100px;color: red;background-color: aqua;">直近正確回数</th>
+                                <th style="width: 100px;color: red;background-color: aqua;">全部正確率</th>
 
-                                <th style="width: 100px;background-color: lightgray;">準一級単語</th>
-                                <th style="width: 100px;background-color: lightgray;">一級単語</th>
-
-                                <th style="width: 100px;background-color: lightgray;">新概念単語２</th>
-                                <th style="width: 100px;background-color: lightgray;">新概念単語３</th>
-
-                                <th style="width: 217px;background-color: lightskyblue;">ステータス</th>
+                                <th style="width: 100px;background-color: lightskyblue;">ステータス</th>
 
                             </tr>
                         </thead>
@@ -303,7 +230,7 @@
                 </div>
 
                 <div class="c_detail_content" style="overflow: auto;" onscroll="scrollHead(this);">
-                    <table class="table_detail_content" id="wordinfotable" style="width: 2618px;table-layout: fixed;">
+                    <table class="table_detail_content" id="wordinfotable" style="table-layout: fixed;">
 
                     </table>
                 </div>

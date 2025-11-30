@@ -75,7 +75,7 @@
 
             .wrongworddiv {
                 width: 1200px;
-                height: 80px;
+                /* height: 80px; */
                 text-align: center;
                 font-size: 60px;
                 /* font-weight: bold; */
@@ -95,7 +95,7 @@
             }
             .worddiv {
                 width: 1200px;
-                height: 80px;
+                /* height: 80px; */
                 text-align: center;
                 font-size: 60px;
                 /* font-weight: bold; */
@@ -114,7 +114,7 @@
             }
             .sen1div {
                 width: 1200px;
-                height: 80px;
+                /* height: 80px; */
                 text-align: center;
                 font-size: 60px;
                 /* font-weight: bold; */
@@ -132,7 +132,7 @@
             }
             .wrongsen1div {
                 width: 1200px;
-                height: 80px;
+                /* height: 80px; */
                 text-align: center;
                 font-size: 60px;
                 /* font-weight: bold; */
@@ -151,7 +151,7 @@
             }
             .sen2div {
                 width: 1200px;
-                height: 80px;
+                /* height: 80px; */
                 text-align: center;
                 font-size: 60px;
                 /* font-weight: bold; */
@@ -169,7 +169,7 @@
             }
             .wrongsen2div {
                 width: 1200px;
-                height: 80px;
+                /* height: 80px; */
                 text-align: center;
                 font-size: 60px;
                 /* font-weight: bold; */
@@ -234,6 +234,23 @@
                 Efw('testword_updatedetail');
             }
 
+            // 初期化
+            function opAiContentPage(book, classification, wordseq) {
+
+                const windowFeatures =
+                "toolbar=no," + 
+                "location=no," + 
+                "directories=no," + 
+                "status=no," + 
+                "menubar=no," + 
+                "scrollbars=yes," + 
+                "resizable=yes," + 
+                "width=" + screen.availWidth + "," + 
+                "height=" + screen.availHeight;
+
+                window.open("testword_ai_content.jsp", 'aicontent', windowFeatures);
+
+            }
         </script>
     </head>
 

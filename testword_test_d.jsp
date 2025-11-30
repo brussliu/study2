@@ -199,6 +199,9 @@
                 box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
                 transform: scale(1.02);
             }
+            .highlight {
+                color: red;
+            }
         </style>
         <script>
 
@@ -242,7 +245,7 @@
     </head>
 
     <body onload="initD();">
-        <div class="content" style="width: 100%;">
+        <div class="content" style="width: 100%;overflow: auto;">
             <div class="c_detail_header" style="margin-top: 10px;height:60px;text-align: center;">
                 <span style="font-weight: bold;font-size: 40px;color:darkgreen;" id="bookspan"></span>
             </div>
@@ -259,35 +262,43 @@
                     <span style="font-size: 30px;font-weight: bold;display: none;" id="wordJSpan"></span>
                 </div>
                 <div style="margin-top:10px;text-align: center;width: 100%;">
-                    <span style="font-weight: bold;color:blue;font-size: 72px;" id="wordESpan">dog</span>
+                    <span style="font-weight: bold;color:blue;font-size: 64px;" id="wordESpan">dog</span>
                 </div>
-                <div style="margin-top:20px;text-align: left;width: 100%;display: flex;justify-content: center;align-items: center;">
-                    <div style="text-align: left;width: 600px;font-size: 54px;" class="selected">
-                        <input type="radio" id="wordC1" name="resultItem" value="1" onclick="checkResult(this);" style="width: 30px;height: 30px;margin-left: 10px;">
-                            &nbsp;<span style="font-size: 48px;"></span>
-                        </input>
-                    </div>
+                <div style="margin-top:10px;text-align: center;width: 100%;">
+                    <span style="font-weight: bold;color:blue;font-size: 56px;" id="question"></span>
                 </div>
 
                 <div style="margin-top:20px;text-align: left;width: 100%;display: flex;justify-content: center;align-items: center;">
-                    <div style="text-align: left;width: 600px;font-size: 54px;">
+                    <div style="text-align: left;width: 600px;font-size: 48px;" class="selected">
+                        <input type="radio" id="wordC1" name="resultItem" value="1" onclick="checkResult(this);" style="width: 30px;height: 30px;margin-left: 10px;">
+                            &nbsp;<span style="font-size: 40px;"></span>
+                        </input>
+                    </div>
+                </div>
+                <div style="margin-top:20px;text-align: left;width: 100%;display: flex;justify-content: center;align-items: center;">
+                    <div style="text-align: left;width: 600px;font-size: 48px;">
                         <input type="radio" id="wordC2" name="resultItem" value="2" onclick="checkResult(this);" style="width: 30px;height: 30px;margin-left: 10px;">
-                            &nbsp;<span style="font-size: 48px;"></span>
+                            &nbsp;<span style="font-size: 40px;"></span>
                         </input>
                     </div>
                 </div>
                 <div style="margin-top:20px;text-align: left;width: 100%;display: flex;justify-content: center;align-items: center;">
-                    <div style="text-align: left;width: 600px;font-size: 54px;">
+                    <div style="text-align: left;width: 600px;font-size: 48px;">
                         <input type="radio" id="wordC3" name="resultItem" value="3" onclick="checkResult(this);" style="width: 30px;height: 30px;margin-left: 10px;">
-                            &nbsp;<span style="font-size: 48px;"></span>
+                            &nbsp;<span style="font-size: 40px;"></span>
                         </input>
                     </div>
                 </div>
                 <div style="margin-top:20px;text-align: left;width: 100%;display: flex;justify-content: center;align-items: center;">
-                    <div style="text-align: left;width: 600px;font-size: 54px;">
+                    <div style="text-align: left;width: 600px;font-size: 48px;">
                         <input type="radio" id="wordC4" name="resultItem" value="4" onclick="checkResult(this);" style="width: 30px;height: 30px;margin-left: 10px;">
-                            &nbsp;<span style="font-size: 48px;"></span>
+                            &nbsp;<span style="font-size: 40px;"></span>
                         </input>
+                    </div>
+                </div>
+                <div style="margin-top:20px;text-align: left;width: 100%;display: flex;justify-content: center;align-items: center;">
+                    <div style="text-align: left;width: 80%;font-size: 32px;color: darkcyan;display: none;" id="explain">
+
                     </div>
                 </div>
             </div>
