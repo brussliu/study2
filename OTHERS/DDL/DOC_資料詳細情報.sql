@@ -1,17 +1,17 @@
-drop table public."DOC_‘—¿Ú×î•ñ";
+drop table public."DOC_è³‡æ–™è©³ç´°æƒ…å ±";
 
-create table public."DOC_‘—¿Ú×î•ñ" (
-    "‘—¿”Ô†" character varying(20)
-  , "}”Ô†" integer
-  , "Šg’£q" character varying(10)
-  , "Œ³ƒtƒ@ƒCƒ‹" text
-  , "k—ªƒtƒ@ƒCƒ‹500" text
-  , "k—ªƒtƒ@ƒCƒ‹200" text
-  , "k—ªƒtƒ@ƒCƒ‹50" text
-  , "ƒRƒƒ“ƒg" character varying(200)
-  , "“o˜^ID" character varying(20)
-  , "XVID" character varying(20)
-  , "“o˜^“ú" timestamp(6) without time zone
-  , "XV“ú" timestamp(6) without time zone
-  , primary key("‘—¿”Ô†","}”Ô†")
+create table public."DOC_è³‡æ–™è©³ç´°æƒ…å ±" (
+  "è³‡æ–™ç•ªå·" character varying(20) not null
+  , "æç•ªå·" integer not null
+  , "æ‹¡å¼µå­" character varying(10)
+  , "å…ƒãƒ•ã‚¡ã‚¤ãƒ«" text
+  , "ç¸®ç•¥ãƒ•ã‚¡ã‚¤ãƒ«500" text
+  , "ç¸®ç•¥ãƒ•ã‚¡ã‚¤ãƒ«200" text
+  , "ç¸®ç•¥ãƒ•ã‚¡ã‚¤ãƒ«50" text
+  , "ã‚³ãƒ¡ãƒ³ãƒˆ" character varying(200)
+  , "ç™»éŒ²ID" character varying(20)
+  , "æ›´æ–°ID" character varying(20)
+  , "ç™»éŒ²æ—¥æ™‚" timestamp(6) without time zone
+  , "æ›´æ–°æ—¥æ™‚" timestamp(6) without time zone
+  , primary key ("è³‡æ–™ç•ªå·", "æç•ªå·")
 );

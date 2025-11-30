@@ -1,31 +1,26 @@
-create table public."STY_“úŸî•ñ" (
-    "“ú•t" character varying(8) not null
-    
-  , "’PŒê‘”" integer
-  
-  , "–¢•×‹­ŒÂ”" integer
-  , "•×‹­’†ŒÂ”" integer
-  , "•×‹­ÏŒÂ”" integer
-  
-  , "A_•×‹­_–¢•×‹­_ŒÂ”" integer
-  , "B_’†“ú–ó‰p_–¢•×‹­_ŒÂ”" integer
-  , "C_‰¹–ó‰p_–¢•×‹­_ŒÂ”" integer
-  , "D_‰p–ó’†_–¢•×‹­_ŒÂ”" integer
-  
-  , "A_•×‹­_•×‹­’†_ŒÂ”" integer
-  , "B_’†“ú–ó‰p_•×‹­’†_ŒÂ”" integer
-  , "C_‰¹–ó‰p_•×‹­’†_ŒÂ”" integer
-  , "D_‰p–ó’†_•×‹­’†_ŒÂ”" integer
+drop table public."STY_æ—¥æ¬¡æƒ…å ±";
 
-  , "A_•×‹­_•×‹­Ï_ŒÂ”" integer
-  , "B_’†“ú–ó‰p_•×‹­Ï_ŒÂ”" integer
-  , "C_‰¹–ó‰p_•×‹­Ï_ŒÂ”" integer
-  , "D_‰p–ó’†_•×‹­Ï_ŒÂ”" integer
-  
-  , "“o˜^ID" character varying(20)
-  , "XVID" character varying(20)
-  , "“o˜^“ú" timestamp(6) without time zone
-  , "XV“ú" timestamp(6) without time zone
-  
-  , primary key ("“ú•t")
+create table public."STY_æ—¥æ¬¡æƒ…å ±" (
+  "æ—¥ä»˜" character varying(8) not null
+  , "å˜èªç·æ•°" integer
+  , "æœªå‹‰å¼·å€‹æ•°" integer
+  , "å‹‰å¼·ä¸­å€‹æ•°" integer
+  , "å‹‰å¼·æ¸ˆå€‹æ•°" integer
+  , "A_å‹‰å¼·_æœªå‹‰å¼·_å€‹æ•°" integer
+  , "B_ä¸­æ—¥è¨³è‹±_æœªå‹‰å¼·_å€‹æ•°" integer
+  , "C_éŸ³è¨³è‹±_æœªå‹‰å¼·_å€‹æ•°" integer
+  , "D_è‹±è¨³ä¸­_æœªå‹‰å¼·_å€‹æ•°" integer
+  , "A_å‹‰å¼·_å‹‰å¼·ä¸­_å€‹æ•°" integer
+  , "B_ä¸­æ—¥è¨³è‹±_å‹‰å¼·ä¸­_å€‹æ•°" integer
+  , "C_éŸ³è¨³è‹±_å‹‰å¼·ä¸­_å€‹æ•°" integer
+  , "D_è‹±è¨³ä¸­_å‹‰å¼·ä¸­_å€‹æ•°" integer
+  , "A_å‹‰å¼·_å‹‰å¼·æ¸ˆ_å€‹æ•°" integer
+  , "B_ä¸­æ—¥è¨³è‹±_å‹‰å¼·æ¸ˆ_å€‹æ•°" integer
+  , "C_éŸ³è¨³è‹±_å‹‰å¼·æ¸ˆ_å€‹æ•°" integer
+  , "D_è‹±è¨³ä¸­_å‹‰å¼·æ¸ˆ_å€‹æ•°" integer
+  , "ç™»éŒ²ID" character varying(20)
+  , "æ›´æ–°ID" character varying(20)
+  , "ç™»éŒ²æ—¥æ™‚" timestamp(6) with time zone
+  , "æ›´æ–°æ—¥æ™‚" timestamp(6) with time zone
+  , primary key ("æ—¥ä»˜")
 );

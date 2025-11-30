@@ -1,14 +1,14 @@
-drop table public."MST_ƒ†[ƒU[î•ñ";
+drop table public."MST_ãƒ¦ãƒ¼ã‚¶ãƒ¼æƒ…å ±";
 
-create table public."MST_ƒ†[ƒU[î•ñ" (
-    "ƒ†[ƒU[ID" character varying(20)
-  , "ƒpƒXƒ[ƒh" character varying(20)
+create table public."MST_ãƒ¦ãƒ¼ã‚¶ãƒ¼æƒ…å ±" (
+  "ãƒ¦ãƒ¼ã‚¶ãƒ¼ID" character varying(20)
+  , "ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰" character varying(20)
   , "SmartID" character varying(20)
-  , "“X•ÜID" character varying(20)
-  , "ƒ[ƒ‹" character varying(20)
-  , "”p~ƒtƒ‰ƒO" character varying(1)
-  , "g—pŠJn“ú•t" timestamp(6) without time zone
-  , "g—pI—¹“ú•t" timestamp(6) without time zone
-  , "“o˜^“ú" timestamp(6) without time zone
-  , "XV“ú" timestamp(6) without time zone
+  , "åº—èˆ—ID" character varying(20)
+  , "ãƒ­ãƒ¼ãƒ«" character varying(20)
+  , "å»ƒæ­¢ãƒ•ãƒ©ã‚°" character varying(1)
+  , "ä½¿ç”¨é–‹å§‹æ—¥ä»˜" timestamp(6) without time zone
+  , "ä½¿ç”¨çµ‚äº†æ—¥ä»˜" timestamp(6) without time zone
+  , "ç™»éŒ²æ—¥æ™‚" timestamp(6) without time zone
+  , "æ›´æ–°æ—¥æ™‚" timestamp(6) without time zone
 );

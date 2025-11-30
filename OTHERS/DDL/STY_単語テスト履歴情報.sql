@@ -1,8 +1,7 @@
-drop table public."STY_’PŒêƒeƒXƒg—š—ğî•ñ";
+drop table public."STY_å˜èªãƒ†ã‚¹ãƒˆå±¥æ­´æƒ…å ±";
 
-create table public."STY_’PŒêƒeƒXƒg—š—ğî•ñ" (
-
-    book character varying(50) not null
+create table public."STY_å˜èªãƒ†ã‚¹ãƒˆå±¥æ­´æƒ…å ±" (
+  book character varying(50) not null
   , classification character varying(20) not null
   , wordseq integer not null
   , kind character varying(50) not null
@@ -17,10 +16,9 @@ create table public."STY_’PŒêƒeƒXƒg—š—ğî•ñ" (
   , all_right integer
   , time integer
   , recentrighttimes integer
-
-  , "“o˜^ID" character varying(20)
-  , "XVID" character varying(20)
-  , "“o˜^“ú" timestamp(6) without time zone
-  , "XV“ú" timestamp(6) without time zone
-  , primary key (book, classification, wordseq)
+  , "ç™»éŒ²ID" character varying(20)
+  , "æ›´æ–°ID" character varying(20)
+  , "ç™»éŒ²æ—¥æ™‚" timestamp(6) with time zone
+  , "æ›´æ–°æ—¥æ™‚" timestamp(6) with time zone
+  , primary key (book, classification, wordseq, kind, level)
 );

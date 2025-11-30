@@ -1,16 +1,16 @@
-drop table public."STY_‰æ‘œî•ñ";
+drop table public."STY_ï¿½æ‘œï¿½ï¿½ï¿½";
 
-create table public."STY_‰æ‘œî•ñ" (
+create table public."STY_ï¿½æ‘œï¿½ï¿½ï¿½" (
 
     "SEQ" character varying(20) primary key
-  , "•ª—Ş" character varying(1)
+  , "ï¿½ï¿½ï¿½ï¿½" character varying(1)
   , "SUB-SEQ" integer
 
-  , "Œ³ƒtƒ@ƒCƒ‹" text
-  , "k—ªƒtƒ@ƒCƒ‹" text
+  , "ï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½" text
+  , "ï¿½kï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½" text
 
-  , "“o˜^ID" character varying(20)
-  , "XVID" character varying(20)
-  , "“o˜^“ú" timestamp(6) without time zone
-  , "XV“ú" timestamp(6) without time zone
+  , "ï¿½oï¿½^ID" character varying(20)
+  , "ï¿½Xï¿½VID" character varying(20)
+  , "ï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½" timestamp(6) with time zone
+  , "ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½" timestamp(6) with time zone
 );

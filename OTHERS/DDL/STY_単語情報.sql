@@ -1,41 +1,38 @@
-drop table public."STY_’PŒêî•ñ";
+drop table public."STY_å˜èªæƒ…å ±";
 
-create table public."STY_’PŒêî•ñ" (
-    "‘Ğ" character varying(50) not null
-  , "•ª—Ş" character varying(20) not null
-  , "’PŒêSEQ" integer not null
-
-  , "’PŒê_‰pŒê" character varying(500)
-  , "’PŒê_“ú–{Œê" character varying(500)
-  , "’PŒê_’†‘Œê" character varying(500)
-
-  , "—á‹å1_‰pŒê" character varying(500)
-  , "—á‹å1_“ú–{Œê" character varying(500)
-  , "—á‹å1_’†‘Œê" character varying(500)
-  
-  , "—á‹å2_‰pŒê" character varying(500)
-  , "—á‹å2_“ú–{Œê" character varying(500)
-  , "—á‹å2_’†‘Œê" character varying(500)
-
-  , "’†‘Œê_³‰ğ" character varying(500)
-  , "’†‘Œê_Œë‰ğ1" character varying(500)
-  , "’†‘Œê_Œë‰ğ2" character varying(500)
-  , "’†‘Œê_Œë‰ğ3" character varying(500)
-  , "’†‘Œê_Œë‰ğ4" character varying(500)
-  , "’†‘Œê_Œë‰ğ5" character varying(500)
-
-  , "“ú–{Œê_³‰ğ" character varying(500)
-  , "“ú–{Œê_Œë‰ğ1" character varying(500)
-  , "“ú–{Œê_Œë‰ğ2" character varying(500)
-  , "“ú–{Œê_Œë‰ğ3" character varying(500)
-  , "“ú–{Œê_Œë‰ğ4" character varying(500)
-  , "“ú–{Œê_Œë‰ğ5" character varying(500)
-
-  , "AIà–¾_’†‘Œê" text
-
-  , "“o˜^ID" character varying(20)
-  , "XVID" character varying(20)
-  , "“o˜^“ú" timestamp(6) without time zone
-  , "XV“ú" timestamp(6) without time zone
-  , primary key ("‘Ğ", "•ª—Ş", "’PŒêSEQ")
+create table public."STY_å˜èªæƒ…å ±" (
+  "æ›¸ç±" character varying(50) not null
+  , "åˆ†é¡" character varying(20) not null
+  , "å˜èªSEQ" integer not null
+  , "å˜èª_è‹±èª" character varying(500)
+  , "å˜èª_æ—¥æœ¬èª" character varying(500)
+  , "å˜èª_ä¸­å›½èª" character varying(500)
+  , "ä¾‹å¥1_è‹±èª" character varying(500)
+  , "ä¾‹å¥1_æ—¥æœ¬èª" character varying(500)
+  , "ä¾‹å¥1_ä¸­å›½èª" character varying(500)
+  , "ä¾‹å¥2_è‹±èª" character varying(500)
+  , "ä¾‹å¥2_æ—¥æœ¬èª" character varying(500)
+  , "ä¾‹å¥2_ä¸­å›½èª" character varying(500)
+  , "ä¸­å›½èª_æ­£è§£" character varying(500)
+  , "ä¸­å›½èª_èª¤è§£1" character varying(500)
+  , "ä¸­å›½èª_èª¤è§£2" character varying(500)
+  , "ä¸­å›½èª_èª¤è§£3" character varying(500)
+  , "ä¸­å›½èª_èª¤è§£4" character varying(500)
+  , "ä¸­å›½èª_èª¤è§£5" character varying(500)
+  , "æ—¥æœ¬èª_æ­£è§£" character varying(500)
+  , "æ—¥æœ¬èª_èª¤è§£1" character varying(500)
+  , "æ—¥æœ¬èª_èª¤è§£2" character varying(500)
+  , "æ—¥æœ¬èª_èª¤è§£3" character varying(500)
+  , "æ—¥æœ¬èª_èª¤è§£4" character varying(500)
+  , "æ—¥æœ¬èª_èª¤è§£5" character varying(500)
+  , "AIèª¬æ˜_ä¸­å›½èª" text
+  , "ç™»éŒ²ID" character varying(20)
+  , "æ›´æ–°ID" character varying(20)
+  , "ç™»éŒ²æ—¥æ™‚" timestamp(6) with time zone
+  , "æ›´æ–°æ—¥æ™‚" timestamp(6) with time zone
+  , "AIèª¬æ˜_AI1_ä¸­å›½èª" text
+  , "AIèª¬æ˜_AI1_æ—¥æœ¬èª" text
+  , "AIèª¬æ˜_AI2_ä¸­å›½èª" text
+  , "AIèª¬æ˜_AI2_æ—¥æœ¬èª" text
+  , primary key ("æ›¸ç±", "åˆ†é¡", "å˜èªSEQ")
 );

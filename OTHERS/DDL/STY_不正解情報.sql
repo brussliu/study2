@@ -1,31 +1,31 @@
-drop table public."STY_•s³‰ğî•ñ";
+drop table public."STY_ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
 
-create table public."STY_•s³‰ğî•ñ" (
-    "–â‘èSEQ" character varying(20) primary key
-  , "–â‘è‹æ•ª" character varying(1)
+create table public."STY_ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" (
+    "ï¿½ï¿½ï¿½SEQ" character varying(20) primary key
+  , "ï¿½ï¿½ï¿½æ•ª" character varying(1)
 
-  , "ƒeƒXƒgSEQ" character varying(20)
-  , "ƒeƒXƒg‰È–Ú" character varying(20)
-  , "ƒeƒXƒg”Ô†" character varying(20)
+  , "ï¿½eï¿½Xï¿½gSEQ" character varying(20)
+  , "ï¿½eï¿½Xï¿½gï¿½È–ï¿½" character varying(20)
+  , "ï¿½eï¿½Xï¿½gï¿½Ôï¿½" character varying(20)
 
-  , "–â‘èoŠ" character varying(20)
-  , "–â‘è‰È–Ú" character varying(20)
+  , "ï¿½ï¿½ï¿½oï¿½ï¿½" character varying(20)
+  , "ï¿½ï¿½ï¿½È–ï¿½" character varying(20)
 
-  , "“à—eSEQ" character varying(20)
+  , "ï¿½ï¿½ï¿½eSEQ" character varying(20)
 
-  , "Œë‚Á‚½“š‚¦SEQ" character varying(20)
-  , "Œë‚Á‚½“š‚¦TEXT" character varying(20)
+  , "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SEQ" character varying(20)
+  , "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½TEXT" character varying(20)
 
-  , "Œë‚Á‚½Œ´ˆö" character varying(999)
-  , "[‚¢Œ´ˆö" character varying(999)
+  , "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" character varying(999)
+  , "ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" character varying(999)
 
-  , "³‚µ‚¢“š‚¦SEQ" character varying(20)
-  , "³‚µ‚¢“š‚¦TEXT" character varying(20)
+  , "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SEQ" character varying(20)
+  , "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½TEXT" character varying(20)
 
-  , "ÄŒvZ“à—eSEQ" character varying(20)
+  , "ï¿½ÄŒvï¿½Zï¿½ï¿½ï¿½eSEQ" character varying(20)
 
-  , "“o˜^ID" character varying(20)
-  , "XVID" character varying(20)
-  , "“o˜^“ú" timestamp(6) without time zone
-  , "XV“ú" timestamp(6) without time zone
+  , "ï¿½oï¿½^ID" character varying(20)
+  , "ï¿½Xï¿½VID" character varying(20)
+  , "ï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½" timestamp(6) with time zone
+  , "ï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½" timestamp(6) with time zone
 );

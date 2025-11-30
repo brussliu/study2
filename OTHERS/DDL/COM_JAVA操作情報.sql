@@ -1,14 +1,14 @@
-drop table public."COM_JAVA‘€ìî•ñ";
+drop table public."COM_JAVAæ“ä½œæƒ…å ±";
 
-create table public."COM_JAVA‘€ìî•ñ" (
-  "ƒL[" character varying(50)
-  , "ƒXƒe[ƒ^ƒX" character varying(50)
-  , "’l1" text
-  , "’l2" text
-  , "’l3" text
-  , "’l4" text
-  , "’l5" text
-  , "“o˜^“ú" timestamp(6) without time zone
-  , "XV“ú" timestamp(6) without time zone
-  , primary key ("ƒL[")
+create table public."COM_JAVAæ“ä½œæƒ…å ±" (
+  "ã‚­ãƒ¼" character varying(50) not null
+  , "ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹" character varying(50)
+  , "å€¤1" text
+  , "å€¤2" text
+  , "å€¤3" text
+  , "å€¤4" text
+  , "å€¤5" text
+  , "ç™»éŒ²æ—¥æ™‚" timestamp(6) with time zone
+  , "æ›´æ–°æ—¥æ™‚" timestamp(6) with time zone
+  , primary key ("ã‚­ãƒ¼")
 );

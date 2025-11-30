@@ -1,5 +1,5 @@
-drop table public."COM_Žw’è“ú•t";
+drop table public."COM_æŒ‡å®šæ—¥ä»˜";
 
-create table public."COM_Žw’è“ú•t" (
-  "Žw’è“ú•t" character varying(8)
+create table public."COM_æŒ‡å®šæ—¥ä»˜" (
+  "æŒ‡å®šæ—¥ä»˜" character varying(8)
 );

@@ -1,15 +1,16 @@
-drop table public."COM_—Õ‰æ‘œ";
+drop table public."COM_è‡¨æ™‚ç”»åƒ";
 
-create table public."COM_—Õ‰æ‘œ" (
-    "˜A”Ô" serial primary key
-  , "‹æ•ª" character varying(1)
-  , "Šg’£q" character varying(10)
-  , "Œ³ƒtƒ@ƒCƒ‹" text
-  , "k—ªƒtƒ@ƒCƒ‹500" text
-  , "k—ªƒtƒ@ƒCƒ‹200" text
-  , "k—ªƒtƒ@ƒCƒ‹50" text
-  , "“o˜^ID" character varying(20)
-  , "XVID" character varying(20)
-  , "“o˜^“ú" timestamp(6) without time zone
-  , "XV“ú" timestamp(6) without time zone
+create table public."COM_è‡¨æ™‚ç”»åƒ" (
+  "é€£ç•ª" serial not null
+  , "åŒºåˆ†" character varying(1)
+  , "æ‹¡å¼µå­" character varying(10)
+  , "å…ƒãƒ•ã‚¡ã‚¤ãƒ«" text
+  , "ç¸®ç•¥ãƒ•ã‚¡ã‚¤ãƒ«500" text
+  , "ç¸®ç•¥ãƒ•ã‚¡ã‚¤ãƒ«200" text
+  , "ç¸®ç•¥ãƒ•ã‚¡ã‚¤ãƒ«50" text
+  , "ç™»éŒ²ID" character varying(20)
+  , "æ›´æ–°ID" character varying(20)
+  , "ç™»éŒ²æ—¥æ™‚" timestamp(6) without time zone
+  , "æ›´æ–°æ—¥æ™‚" timestamp(6) without time zone
+  , primary key ("é€£ç•ª")
 );

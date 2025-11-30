@@ -1,20 +1,20 @@
-drop table public."TRN_ƒeƒXƒg‰È–Úî•ñ";
+drop table public."TRN_ãƒ†ã‚¹ãƒˆç§‘ç›®æƒ…å ±";
 
-create table public."TRN_ƒeƒXƒg‰È–Úî•ñ" (
-    "ƒeƒXƒgSEQ" character varying(20)
-  , "ƒeƒXƒg‰È–Ú" character varying(20)
-  , "“à—eSEQ" character varying(500)
-  , "–“_" integer
-  , "“¾“_" integer
-  , "Šw‹‰-‡ˆÊ" integer
-  , "Šw‹‰-l”" integer
-  , "Šw‹‰-•½‹Ï“_" numeric(6,2)
-  , "Šw”N-‡ˆÊ" integer
-  , "Šw”N-l”" integer
-  , "Šw”N-•½‹Ï“_" numeric(6,2)
-  , "“o˜^ID" character varying(20)
-  , "XVID" character varying(20)
-  , "“o˜^“ú" timestamp(6) without time zone
-  , "XV“ú" timestamp(6) without time zone
-  , primary key ("ƒeƒXƒgSEQ", "ƒeƒXƒg‰È–Ú")
+create table public."TRN_ãƒ†ã‚¹ãƒˆç§‘ç›®æƒ…å ±" (
+  "ãƒ†ã‚¹ãƒˆSEQ" character varying(20) not null
+  , "ãƒ†ã‚¹ãƒˆç§‘ç›®" character varying(20) not null
+  , "å†…å®¹SEQ" character varying(20)
+  , "æº€ç‚¹" integer
+  , "å¾—ç‚¹" integer
+  , "å­¦ç´š-é †ä½" integer
+  , "å­¦ç´š-äººæ•°" integer
+  , "å­¦ç´š-å¹³å‡ç‚¹" numeric(6, 2)
+  , "å­¦å¹´-é †ä½" integer
+  , "å­¦å¹´-äººæ•°" integer
+  , "å­¦å¹´-å¹³å‡ç‚¹" numeric(6, 2)
+  , "ç™»éŒ²ID" character varying(20)
+  , "æ›´æ–°ID" character varying(20)
+  , "ç™»éŒ²æ—¥æ™‚" timestamp(6) without time zone
+  , "æ›´æ–°æ—¥æ™‚" timestamp(6) without time zone
+  , primary key ("ãƒ†ã‚¹ãƒˆSEQ", "ãƒ†ã‚¹ãƒˆç§‘ç›®")
 );
