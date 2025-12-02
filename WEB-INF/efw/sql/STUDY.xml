@@ -18,11 +18,11 @@
 			COALESCE(N3.CT,0) as cloudycount,
 			COALESCE(N4.CT,0) as raincount,
 			round(cast(COALESCE(N2.CT,0) as numeric) /cast(T."数量" as numeric) * 100, 2)  || '%'  as per,
-			LPAD(cast(COALESCE(FLOOR(N5.TM / 3600),0) as text), 2, '0') as costtime1,
-			LPAD(cast(COALESCE(FLOOR((N5.TM % 3600) / 60),0) as text), 2, '0') as costtime2,
-			LPAD(cast(COALESCE(N5.TM % 60,0) as text), 2, '0') as costtime3,
+			seconds_to_hhmmss(N5.TM) as costtime,
 			CASE WHEN N0.ST &gt; 0 THEN '実施中' ELSE '実施済' END AS status,
-			CASE WHEN N0.ST &gt; 0 THEN '0' ELSE '9' END AS sortno
+			CASE WHEN N0.ST &gt; 0 THEN '0' ELSE '9' END AS sortno,
+			CASE WHEN to_char(N6.upt,'YYYYMMDD') = to_char(CURRENT_TIMESTAMP,'YYYYMMDD') then 'red'
+                 WHEN to_char(N6.upt,'YYYYMMDD') = to_char(CURRENT_TIMESTAMP - INTERVAL '1 day','YYYYMMDD') then 'blue' else '' end updflg
 		FROM
 			"STY_単語テスト情報" T
 		LEFT JOIN
@@ -93,6 +93,18 @@
 					B."ステータス" = '9'
 				GROUP BY A."テスト番号"
 			) N5 ON T."テスト番号" = N5."テスト番号"
+        LEFT JOIN
+            (
+                SELECT 
+                    A."テスト番号",max(B."更新日時") AS upt
+                FROM 
+                    "STY_単語テスト情報" A,
+                    "STY_単語テスト詳細情報" B
+                WHERE 
+                    A."テスト番号" = B."テスト番号" AND 
+                    B."ステータス" = '9'
+                GROUP BY A."テスト番号"
+            ) N6 ON T."テスト番号" = N6."テスト番号"
 		WHERE
 			T."登録ID" = :userid
 			<if exists="book"> AND T."書籍" = :book</if>
