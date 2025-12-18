@@ -45,7 +45,7 @@ testword_init.fire = function (params) {
 	}
 
 	var resultHTML =
-		"<tr class='tr1'>" +
+		"<tr class='tr1' style='color:{updflg}'>" +
 			"<td style='width:  60px;text-align: center;'><input type='checkbox' name='testitem' value='{testno}' onchange='checkTest(this)'></input></td>" +
 			"<td style='width: 160px;'><span class='l5'>{book}</span></td>" +
 			"<td style='width: 250px;'><span class='l5'>{classification}</span></td>" +
@@ -68,7 +68,7 @@ testword_init.fire = function (params) {
 				"</tr></table>" +
 			"</td>" +
 			"<td style='width: 100px;' class='r'><span class='r5'>{per}</span></td>" +
-			"<td style='width: 100px;text-align: center;'>{costtime1}:{costtime2}:{costtime3}</td>" +
+			"<td style='width: 100px;text-align: center;'>{costtime}</td>" +
 		"</tr>";
 
 	ret.runat("#testwordtable").remove("tr").append(resultHTML).withdata(selectResult);
@@ -76,13 +76,14 @@ testword_init.fire = function (params) {
 	ret.eval("changeStyleForTestInfo();");
 
 
-
+	var d = new Date().format("yyyyMMdd");
 	//勉強時間取得studytime
 	//  检索
 	var selectResult2 = db.select(
 		"STUDY",
 		"selectStudyTime",
 		{
+			d : d
 		}
 	).getSingle();
 

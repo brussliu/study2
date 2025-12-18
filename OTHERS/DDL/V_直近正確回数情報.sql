@@ -19,6 +19,7 @@ SELECT
     count(S.*)  AS times
 FROM
     "STY_単語テスト詳細情報" S
+LEFT JOIN "STY_単語テスト情報" Z ON S."テスト番号" = Z."テスト番号"
 LEFT JOIN
 (
     SELECT 
@@ -42,8 +43,8 @@ LEFT JOIN
     GROUP BY 
         a."書籍", a."分類", a."単語SEQ", c."テスト種別", c."難易度"
 ) TEMP
-ON S."書籍" = TEMP."書籍"  AND  S."分類" = TEMP."分類"  AND  S."単語SEQ" = TEMP."単語SEQ"
-LEFT JOIN "STY_単語テスト情報" Z ON S."テスト番号" = Z."テスト番号"
+ON S."書籍" = TEMP."書籍" AND S."分類" = TEMP."分類" AND S."単語SEQ" = TEMP."単語SEQ" AND Z."テスト種別" = TEMP."テスト種別" AND Z."難易度" = TEMP."難易度"
+
 WHERE
 
     S."ステータス" in ('9')

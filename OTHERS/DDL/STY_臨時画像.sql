@@ -1,12 +1,13 @@
-drop table public."STY_—Õ‰æ‘œ";
+drop table public."STY_è‡¨æ™‚ç”»åƒ";
 
-create table public."STY_—Õ‰æ‘œ" (
-    "˜A”Ô" serial primary key
-  , "‹æ•ª" character varying(1)
-  , "Œ³ƒtƒ@ƒCƒ‹" text
-  , "k—ªƒtƒ@ƒCƒ‹" text
-  , "“o˜^ID" character varying(20)
-  , "XVID" character varying(20)
-  , "“o˜^“ú" timestamp(6) without time zone
-  , "XV“ú" timestamp(6) without time zone
+create table public."STY_è‡¨æ™‚ç”»åƒ" (
+  "é€£ç•ª" serial not null
+  , "åŒºåˆ†" character varying(1)
+  , "å…ƒãƒ•ã‚¡ã‚¤ãƒ«" text
+  , "ç¸®ç•¥ãƒ•ã‚¡ã‚¤ãƒ«" text
+  , "ç™»éŒ²ID" character varying(20)
+  , "æ›´æ–°ID" character varying(20)
+  , "ç™»éŒ²æ—¥æ™‚" timestamp(6) without time zone
+  , "æ›´æ–°æ—¥æ™‚" timestamp(6) without time zone
+  , primary key ("é€£ç•ª")
 );

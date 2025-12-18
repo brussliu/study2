@@ -1,9 +1,10 @@
 drop table public."TEMP_UPLOADPIC";
 
 create table public."TEMP_UPLOADPIC" (
-    "PICNO" serial primary key
+  "PICNO" serial not null
   , "PIC" character varying(99999)
-  , "“X•ÜID" character varying(20)
-  , "“o˜^“ú" timestamp(6) without time zone
-  , "XV“ú" timestamp(6) without time zone
+  , "åº—èˆ—ID" character varying(20)
+  , "ç™»éŒ²æ—¥æ™‚" timestamp(6) with time zone
+  , "æ›´æ–°æ—¥æ™‚" timestamp(6) with time zone
+  , primary key (PICNO)
 );

@@ -1,12 +1,12 @@
-drop table public."MST_Œ ŒÀî•ñ";
+drop table public."MST_æ¨©é™æƒ…å ±";
 
-create table public."MST_Œ ŒÀî•ñ" (
-    "“X•ÜID" character varying(20)
-  , "ƒ[ƒ‹" character varying(20)
-  , "Œ ŒÀID" character varying(20)
-  , "Œ ŒÀí•Ê" character varying(20)
-  , "Œ ŒÀ‹æ•ª" character varying(20)
-  , "”õl" character varying(500)
-  , "“o˜^“ú" timestamp(6) without time zone
-  , "XV“ú" timestamp(6) without time zone
+create table public."MST_æ¨©é™æƒ…å ±" (
+  "åº—èˆ—ID" character varying(20)
+  , "ãƒ­ãƒ¼ãƒ«" character varying(20)
+  , "æ¨©é™ID" character varying(20)
+  , "æ¨©é™ç¨®åˆ¥" character varying(20)
+  , "æ¨©é™åŒºåˆ†" character varying(20)
+  , "å‚™è€ƒ" character varying(500)
+  , "ç™»éŒ²æ—¥æ™‚" timestamp(6) without time zone
+  , "æ›´æ–°æ—¥æ™‚" timestamp(6) without time zone
 );

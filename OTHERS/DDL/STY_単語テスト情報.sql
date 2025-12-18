@@ -1,22 +1,18 @@
-drop table public."STY_’PŒêƒeƒXƒgî•ñ";
+drop table public."STY_å˜èªãƒ†ã‚¹ãƒˆæƒ…å ±";
 
-create table public."STY_’PŒêƒeƒXƒgî•ñ" (
-    "ƒeƒXƒg”Ô†" character varying(20) primary key
-
-  , "‘Ğ" character varying(50)
-  , "•ª—Ş" character varying(200)
-
-  , "ƒeƒXƒg•û®" character varying(50)
-  , "ƒeƒXƒgí•Ê" character varying(50)
-  , "“ïˆÕ“x" character varying(50)
-
-  , "”—Ê" integer
-
-  , "ŠJnŠÔ" timestamp(6) without time zone
-  , "I—¹ŠÔ" timestamp(6) without time zone
-
-  , "“o˜^ID" character varying(20)
-  , "XVID" character varying(20)
-  , "“o˜^“ú" timestamp(6) without time zone
-  , "XV“ú" timestamp(6) without time zone
+create table public."STY_å˜èªãƒ†ã‚¹ãƒˆæƒ…å ±" (
+  "ãƒ†ã‚¹ãƒˆç•ªå·" character varying(20) not null
+  , "æ›¸ç±" character varying(50)
+  , "åˆ†é¡" character varying(200)
+  , "ãƒ†ã‚¹ãƒˆæ–¹å¼" character varying(50)
+  , "ãƒ†ã‚¹ãƒˆç¨®åˆ¥" character varying(50)
+  , "é›£æ˜“åº¦" character varying(50)
+  , "æ•°é‡" integer
+  , "é–‹å§‹æ™‚é–“" timestamp(6) with time zone
+  , "çµ‚äº†æ™‚é–“" timestamp(6) with time zone
+  , "ç™»éŒ²ID" character varying(20)
+  , "æ›´æ–°ID" character varying(20)
+  , "ç™»éŒ²æ—¥æ™‚" timestamp(6) with time zone
+  , "æ›´æ–°æ—¥æ™‚" timestamp(6) with time zone
+  , primary key ("ãƒ†ã‚¹ãƒˆç•ªå·")
 );

@@ -39,6 +39,11 @@ document_delete.fire = function (params) {
 
 	}
 
+	var folder = "doc" + "//" + doc_no.substring(0,6);
+	var sub_folder = folder + "//" + doc_no; 
+
+	file.remove(sub_folder);
+
 	// 画面へ結果を返す
 	return ret.navigate("document.jsp");
 

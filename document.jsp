@@ -41,6 +41,10 @@
     </style>
     <script>
 
+        function scrollHead(obj) {
+                var p = $(obj).get(0).scrollLeft;
+                $(obj).prev().get(0).scrollLeft = p;
+        }
 
 
         // function ttt(obj){
@@ -404,7 +408,7 @@
 
 
                     <div class="c_detail_header" style="overflow: hidden;" onscroll="scrollHead(this);">
-                        <table class="table_detail_header" style="table-layout: fixed;">
+                        <table class="table_detail_header" style="table-layout: fixed;width: 2200px;">
                             <thead>
                                 <tr class="header">
                                     <th style="width: 50px;" id="temp">選択</th>
@@ -415,6 +419,7 @@
                                     <th style="width: 200px;">中分類</th>
                                     <th style="width: 200px;">小分類</th>
                                     <th style="width: 200px;">細分類</th>
+                                    <th style="width: 400px;">コメント</th>
                                     <th style="width: 580px;">内容</th>
                                 </tr>
                             </thead>
@@ -422,7 +427,7 @@
                     </div>
                     <!-- display: none; -->
                     <div class="c_detail_content" style="overflow: auto;" onscroll="scrollHead(this);">
-                        <table class="table_detail_content" id="doclisttable" style="table-layout: fixed;">
+                        <table class="table_detail_content" id="doclisttable" style="table-layout: fixed;width: 2200px;">
                             
                         </table>
                     </div>

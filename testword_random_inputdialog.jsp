@@ -254,6 +254,8 @@
                                 <option class="dbvalue" value="14.キクタンBasic">14.キクタンBasic</option>
                                 <option class="dbvalue" value="15.キクタン２級">15.キクタン２級</option>
                                 <option class="dbvalue" value="90.新概念単語2">90.新概念単語2</option>
+                                <option class="dbvalue" value="90.新概念単語3">90.新概念単語3</option>
+                                <option class="dbvalue" value="91.英語の文800個">91.英語の文800個</option>
                             </select>
                         </td>
                         <td style="width: 250px;">
@@ -316,6 +318,8 @@
                                 <option class="dbvalue" value="14.キクタンBasic">14.キクタンBasic</option>
                                 <option class="dbvalue" value="15.キクタン２級">15.キクタン２級</option>
                                 <option class="dbvalue" value="90.新概念単語2">90.新概念単語2</option>
+                                <option class="dbvalue" value="90.新概念単語3">90.新概念単語3</option>
+                                <option class="dbvalue" value="91.英語の文800個">91.英語の文800個</option>
                             </select>
                         </td>
                         <td style="width: 250px;">
@@ -378,6 +382,8 @@
                                 <option class="dbvalue" value="14.キクタンBasic">14.キクタンBasic</option>
                                 <option class="dbvalue" value="15.キクタン２級">15.キクタン２級</option>
                                 <option class="dbvalue" value="90.新概念単語2">90.新概念単語2</option>
+                                <option class="dbvalue" value="90.新概念単語3">90.新概念単語3</option>
+                                <option class="dbvalue" value="91.英語の文800個">91.英語の文800個</option>
                             </select>
                         </td>
                         <td style="width: 250px;">

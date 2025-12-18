@@ -192,7 +192,7 @@
 
                 var book = $('#opt_book').val();
 
-                if(book == "99.テスト"){
+                if(book == "91.英語の文800個"){
                     $("#opt_kind .e").show();
                 }else{
                     $("#opt_kind .e").hide();

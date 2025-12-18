@@ -18,11 +18,11 @@
 			COALESCE(N3.CT,0) as cloudycount,
 			COALESCE(N4.CT,0) as raincount,
 			round(cast(COALESCE(N2.CT,0) as numeric) /cast(T."数量" as numeric) * 100, 2)  || '%'  as per,
-			LPAD(cast(COALESCE(FLOOR(N5.TM / 3600),0) as text), 2, '0') as costtime1,
-			LPAD(cast(COALESCE(FLOOR((N5.TM % 3600) / 60),0) as text), 2, '0') as costtime2,
-			LPAD(cast(COALESCE(N5.TM % 60,0) as text), 2, '0') as costtime3,
+			seconds_to_hhmmss(N5.TM) as costtime,
 			CASE WHEN N0.ST &gt; 0 THEN '実施中' ELSE '実施済' END AS status,
-			CASE WHEN N0.ST &gt; 0 THEN '0' ELSE '9' END AS sortno
+			CASE WHEN N0.ST &gt; 0 THEN '0' ELSE '9' END AS sortno,
+			CASE WHEN to_char(N6.upt,'YYYYMMDD') = to_char(CURRENT_TIMESTAMP,'YYYYMMDD') then 'red'
+                 WHEN to_char(N6.upt,'YYYYMMDD') = to_char(CURRENT_TIMESTAMP - INTERVAL '1 day','YYYYMMDD') then 'blue' else '' end updflg
 		FROM
 			"STY_単語テスト情報" T
 		LEFT JOIN
@@ -93,6 +93,18 @@
 					B."ステータス" = '9'
 				GROUP BY A."テスト番号"
 			) N5 ON T."テスト番号" = N5."テスト番号"
+        LEFT JOIN
+            (
+                SELECT 
+                    A."テスト番号",max(B."更新日時") AS upt
+                FROM 
+                    "STY_単語テスト情報" A,
+                    "STY_単語テスト詳細情報" B
+                WHERE 
+                    A."テスト番号" = B."テスト番号" AND 
+                    B."ステータス" = '9'
+                GROUP BY A."テスト番号"
+            ) N6 ON T."テスト番号" = N6."テスト番号"
 		WHERE
 			T."登録ID" = :userid
 			<if exists="book"> AND T."書籍" = :book</if>
@@ -261,7 +273,7 @@
 			FROM 
 				"STY_単語テスト詳細情報" B
 			WHERE 
-				cast(B."更新日時" as date) = CURRENT_DATE
+				to_char(B."更新日時", 'YYYYMMDD') = :d
 				AND
 				B."時間" &lt;= 30
 		) T
@@ -300,6 +312,7 @@
 		GROUP BY
 			T
 		) L2 on L1.DLIST = L2.T
+		ORDER BY to_char(L1.DLIST,'MM/DD')
 	</sql>
 
 
@@ -683,72 +696,147 @@
 			D.book,D.kind,D.level,D.classification,D.wordseq
 	</sql>
 
+	<sql id="selectWordInfo">
+		select 
+			*
+		from
+		(
+			select
+				DATA."書籍" as book,
+				DATA."分類" as classification,
+				DATA."単語SEQ" as wordseq,
+				
+				DATA."単語_英語" as word_e,
+				DATA."単語_日本語" as word_j,
+				DATA."単語_中国語" as word_c,
+
+				DATA."例句1_英語" as sen1_e,
+				DATA."例句1_日本語" as sen1_j,
+				DATA."例句1_中国語" as sen1_c,
+
+				DATA."例句2_英語" as sen2_e,
+				DATA."例句2_日本語" as sen2_j,
+				DATA."例句2_中国語" as sen2_c,
+
+				DATA."中国語_正解" as item_ch_crt,
+				DATA."中国語_誤解1" as item_ch_wrg1,
+				DATA."中国語_誤解2" as item_ch_wrg2,
+				DATA."中国語_誤解3" as item_ch_wrg3,
+				DATA."中国語_誤解4" as item_ch_wrg4,
+				DATA."中国語_誤解5" as item_ch_wrg5,
+				
+				DATA."日本語_正解" as item_ja_wrg1,
+				DATA."日本語_誤解1" as item_ja_wrg1,
+				DATA."日本語_誤解2" as item_ja_wrg2,
+				DATA."日本語_誤解3" as item_ja_wrg3,
+				DATA."日本語_誤解4" as item_ja_wrg4,
+				DATA."日本語_誤解5" as item_ja_wrg5,
+				
+				V1.wrong_flg as wrong_flg_a,
+				V2.wrong_flg as wrong_flg_b,
+				V3.wrong_flg as wrong_flg_c,
+				V4.wrong_flg as wrong_flg_d,
+				
+				case    when V1.wrong_flg = '-' and V2.wrong_flg = '-' and V3.wrong_flg = '-' and V4.wrong_flg = '-' then '未勉強'
+						when V1.wrong_flg = '○' and V2.wrong_flg = '○' and V3.wrong_flg = '○' and V4.wrong_flg = '○' then '勉強済'
+						else '勉強中' end as wrong_flg,
+				
+				W1."分類" as we1,
+				W2."分類" as we2,
+				W3."分類" as we3,
+				W4."分類" as we4,
+				W5."分類" as we5,
+				W6."分類" as we6,
+				W7."分類" as we7,
+				W8."分類" as we8,
+				W9."分類" as we9,
+				W10."分類" as we10,
+				W11."分類" as we11,
+				W12."分類" as we12,
+				W13."分類" as we13
+
+			from 
+				"STY_単語情報" DATA
+				
+			left join (select * from "STY_単語情報" where "書籍" = '01.三級単語')   W1 on W1."単語_英語" = DATA."単語_英語"
+			left join (select * from "STY_単語情報" where "書籍" = '02.三級熟語')   W2 on W2."単語_英語" = DATA."単語_英語"
+			left join (select * from "STY_単語情報" where "書籍" = '03.キクタン')   W3 on W3."単語_英語" = DATA."単語_英語"
+			left join (select * from "STY_単語情報" where "書籍" = '04.キクジュク') W4 on W4."単語_英語" = DATA."単語_英語"
+			left join (select * from "STY_単語情報" where "書籍" = '11.二級単語')   W5 on W5."単語_英語" = DATA."単語_英語"
+			left join (select * from "STY_単語情報" where "書籍" = '12.二級熟語')   W6 on W6."単語_英語" = DATA."単語_英語"
+			left join (select * from "STY_単語情報" where "書籍" = '13.キクタン準２級') W7 on W7."単語_英語" = DATA."単語_英語"
+			left join (select * from "STY_単語情報" where "書籍" = '14.キクタンBasic')  W8 on W8."単語_英語" = DATA."単語_英語"
+			left join (select * from "STY_単語情報" where "書籍" = '15.キクタン２級')   W9 on W9."単語_英語" = DATA."単語_英語"
+			left join (select * from "STY_単語情報" where "書籍" = '21.準一級単語')   W10 on W10."単語_英語" = DATA."単語_英語"
+			left join (select * from "STY_単語情報" where "書籍" = '22.一級単語')   W11 on W11."単語_英語" = DATA."単語_英語"
+
+			left join (select * from "STY_単語情報" where "書籍" = '90.新概念単語2')   W12 on W12."単語_英語" = DATA."単語_英語"
+			left join (select * from "STY_単語情報" where "書籍" = '90.新概念単語3')   W13 on W13."単語_英語" = DATA."単語_英語"
+			
+			left join "V_単語情報リスト" V1 on V1.book = DATA."書籍" and V1.classification = DATA."分類" and V1.wordseq = DATA."単語SEQ" and V1.kind = 'A.勉強'
+			left join "V_単語情報リスト" V2 on V2.book = DATA."書籍" and V2.classification = DATA."分類" and V2.wordseq = DATA."単語SEQ" and V2.kind = 'B.中日訳英'
+			left join "V_単語情報リスト" V3 on V3.book = DATA."書籍" and V3.classification = DATA."分類" and V3.wordseq = DATA."単語SEQ" and V3.kind = 'C.音訳英'
+			left join "V_単語情報リスト" V4 on V4.book = DATA."書籍" and V4.classification = DATA."分類" and V4.wordseq = DATA."単語SEQ" and V4.kind = 'D.英訳中'
+		) TEMP
+        where
+            1 = 1
+			<if exists="book"> AND TEMP.book = :book</if>
+			<if exists="classification"> AND TEMP.classification = :classification</if>
+			<if exists="keyword"> 
+				<if istrue="keyword != ''">
+				AND (
+					TEMP.word_e like concat('%', :keyword ,'%') OR
+					TEMP.word_j like concat('%', :keyword ,'%') OR
+					TEMP.word_c like concat('%', :keyword ,'%') OR
+					TEMP.sen1_e like concat('%', :keyword ,'%') OR
+					TEMP.sen1_j like concat('%', :keyword ,'%') OR
+					TEMP.sen1_c like concat('%', :keyword ,'%') OR
+					TEMP.sen2_e like concat('%', :keyword ,'%') OR
+					TEMP.sen2_j like concat('%', :keyword ,'%') OR
+					TEMP.sen2_c like concat('%', :keyword ,'%') 
+				)
+				</if>
+			</if>
+			<if exists="status"> 
+				<if istrue="status != ''">
+					AND TEMP.wrong_flg in (@status)
+				</if>
+			</if>
+        order by
+            TEMP.book, TEMP.classification, TEMP.wordseq
+	</sql>
+
 	<sql id="selectWordTestInfo">
-		select
-			DATA.book,
-			DATA.classification,
-			DATA.wordseq,
-			DATA.kind,
-
-			DATA.costtime,
-			DATA.testtimes,
-			DATA.all_right,
-			round(DATA.per, 2) || '%' as per,
-
-			DATA.word_e,
-
-			W1."分類" as we1,
-			W2."分類" as we2,
-			W3."分類" as we3,
-			W4."分類" as we4,
-			W5."分類" as we5,
-			W6."分類" as we6,
-			W7."分類" as we7,
-			W8."分類" as we8,
-			W9."分類" as we9,
-
-			DATA.word_j,
-			DATA.word_c,
-			DATA.word_right,
-			DATA.word_wrong,
-
-			DATA.sen1_e,
-			DATA.sen1_j,
-			DATA.sen1_c,
-			DATA.sen1_right,
-			DATA.sen1_wrong,
-
-			DATA.sen2_e,
-			DATA.sen2_j,
-			DATA.sen2_c,
-			DATA.sen2_right,
-			DATA.sen2_wrong,
-			DATA.recentrighttimes,
-			DATA.wrong_flg
-		from 
-			"V_単語情報リスト" DATA
-        left join (select * from "STY_単語情報" where "書籍" = '01.三級単語')   W1 on W1."単語_英語" = DATA.word_e
-        left join (select * from "STY_単語情報" where "書籍" = '02.三級熟語')   W2 on W2."単語_英語" = DATA.word_e
-        left join (select * from "STY_単語情報" where "書籍" = '03.キクタン')   W3 on W3."単語_英語" = DATA.word_e
-        left join (select * from "STY_単語情報" where "書籍" = '04.キクジュク') W4 on W4."単語_英語" = DATA.word_e
-        left join (select * from "STY_単語情報" where "書籍" = '11.二級単語')   W5 on W5."単語_英語" = DATA.word_e
-		left join (select * from "STY_単語情報" where "書籍" = '12.二級熟語')   W6 on W6."単語_英語" = DATA.word_e
-		left join (select * from "STY_単語情報" where "書籍" = '13.キクタン準２級') W7 on W7."単語_英語" = DATA.word_e
-		left join (select * from "STY_単語情報" where "書籍" = '14.キクタンBasic')  W8 on W8."単語_英語" = DATA.word_e
-		left join (select * from "STY_単語情報" where "書籍" = '15.キクタン２級')   W9 on W9."単語_英語" = DATA.word_e
-
-		where
-			1 = 1
+        select
+            DATA.book,
+            DATA.classification,
+            DATA.wordseq,
+            
+            DATA.word_e,
+            
+            DATA.kind,
+            DATA.costtime,
+            DATA.testtimes,
+            DATA.all_right,
+            round(DATA.per, 2) || '%' as per,
+            
+            DATA.recentrighttimes,
+            
+            DATA.wrong_flg
+        from 
+            "V_単語情報リスト" DATA
+        
+        where
+            1 = 1
 			<if exists="book"> AND DATA.book = :book</if>
 			<if exists="classification"> AND DATA.classification = :classification</if>
+			<if exists="kind"> AND DATA.kind = :kind</if>
 			<if exists="accuracy"> AND 
 				<if istrue="accuracy == ''"> 1 = 1 </if>
 				<if istrue="accuracy == '1'"> (DATA.testtimes &gt; 0 AND DATA.per = 100) </if>
-				<if istrue="accuracy == '2'"> (DATA.testtimes &gt; 0 AND DATA.per &lt; 100) </if>
-				<if istrue="accuracy == '3'"> (DATA.testtimes &gt; 0 AND DATA.per &lt; 85) </if>
-				<if istrue="accuracy == '4'"> (DATA.testtimes &gt; 0 AND DATA.per &gt;= 85 and DATA.per &lt; 100)</if>
-				<if istrue="accuracy == '5'"> (DATA.testtimes &gt; 0 AND DATA.per &gt;= 50 and DATA.per &lt; 85)</if>
-				<if istrue="accuracy == '6'"> (DATA.testtimes &gt; 0 AND DATA.per &lt; 50)</if>
+				<if istrue="accuracy == '2'"> (DATA.testtimes &gt; 0 AND DATA.per &gt;= 80 and DATA.per &lt; 100)</if>
+				<if istrue="accuracy == '3'"> (DATA.testtimes &gt; 0 AND DATA.per &gt;= 50 and DATA.per &lt;= 80)</if>
+				<if istrue="accuracy == '4'"> (DATA.testtimes &gt; 0 AND DATA.per &lt; 50)</if>
 			</if>
 			<if exists="keyword"> 
 				<if istrue="keyword != ''">
@@ -770,8 +858,8 @@
 					AND DATA.wrong_flg in (@status)
 				</if>
 			</if>
-		order by
-			DATA.book, DATA.classification, DATA.wordseq, DATA.kind
+        order by
+            DATA.book, DATA.classification, DATA.wordseq, DATA.kind
 	</sql>
 
 	<sql id="searchWordBook">
@@ -1296,23 +1384,29 @@
 
 	<sql id="selectTranslationInfo">
 		SELECT
-			  "書籍" AS book
+			"書籍" AS book
 			, "分類" AS classification
 			, "単語SEQ" AS wordseq
-			, "中国語_正解" AS rightRt
-			, "中国語_誤解1" AS wrongRt1
-			, "中国語_誤解2" AS wrongRt2
-			, "中国語_誤解3" AS wrongRt3
-			, "中国語_誤解4" AS wrongRt4
-			, "中国語_誤解5" AS wrongRt5
+			, "質問" AS question
+			, "正解" AS rightRt
+			, "誤解1" AS wrongRt1
+			, "誤解2" AS wrongRt2
+			, "誤解3" AS wrongRt3
+			, "誤解4" AS wrongRt4
+			, "誤解5" AS wrongRt5
+			, "説明" AS explain
 		FROM
-			"STY_単語情報" T
+			"STY_単語質問情報" T
 		WHERE 
+			T."区分1" = '中訳英'
+			AND
 			T."書籍" = :book 
 			AND 
 			T."分類" = :classification 
 			AND 
 			T."単語SEQ" = :wordseq
+		ORDER BY RANDOM()
+		LIMIT 1;
 	</sql>
 
 	<sql id="updateTestDetailInfo3">
@@ -1482,7 +1576,7 @@
 		from
 			( 
 				select
-					book
+					case when book in ('01.三級単語','02.三級熟語','03.キクタン','04.キクジュク') then '01.初級編' else book end as book
 					, kind
 					, level
 					, count(*) as word_ct
@@ -1498,10 +1592,10 @@
 				from
 					"V_単語情報リスト" 
 				group by
-					book
+					case when book in ('01.三級単語','02.三級熟語','03.キクタン','04.キクジュク') then '01.初級編' else book end
 					, kind
 					, level 
-			) as t1
+			) 
 		group by
 			book, kind, level
 	</sql>
@@ -1519,13 +1613,13 @@
         
         , (
             select count(*) from (
-                select book,classification,wordseq from "V_単語情報リスト" where
-                    kind in ('A.勉強','B.中日訳英','C.音訳英','D.英訳中') and
-                    level = '1.簡単' AND wrong_flg = '-'
-				group by book,classification,wordseq
-				having count(distinct kind) = 4
-            ) as t1
-		   )
+                select book,classification,wordseq from "V_単語情報リスト" where 
+                    kind in ('A.勉強','B.中日訳英','C.音訳英','D.英訳中') and 
+                    level = '1.簡単' AND wrong_flg = '-' 
+                group by book,classification,wordseq 
+                having count(distinct kind) = 4
+            )
+        )
         , (
             select count(*) from (
                 select book,classification,wordseq from "V_単語情報リスト" where 
@@ -1537,7 +1631,7 @@
                 sum(case when wrong_flg = '○' then 1 else 0 end) &lt; 4
                 
 
-            )  as t2
+            )
         )
         , (
             select count(*) from (
@@ -1546,7 +1640,7 @@
                     level = '1.簡単' AND wrong_flg = '○' 
                 group by book,classification,wordseq 
                 having count(distinct kind) = 4
-            ) as  t3
+            )
         ),
         null,
         null,
@@ -1701,7 +1795,10 @@
 			, "例句2_英語" AS sen2_e
 			, "例句2_日本語" AS sen2_j
 			, "例句2_中国語" AS sen2_c
-			, "AI説明_中国語" AS ai_text_ch
+			, "AI説明_AI1_中国語" as ai1_content_ch
+			, "AI説明_AI1_日本語" as ai1_content_jp
+			, "AI説明_AI2_中国語" as ai2_content_ch
+			, "AI説明_AI2_日本語" as ai2_content_jp
 		FROM
 			"STY_単語情報" T
 		WHERE
@@ -1748,6 +1845,142 @@
 	<sql id="deleteJavaKey">
 		DELETE FROM "COM_JAVA操作情報" WHERE "キー" = :key
 	</sql>
+
+	<sql id="selectWordsToAi02">
+		SELECT
+			  "書籍" AS book
+			, "分類" AS classification
+			, "単語SEQ" AS wordseq
+			, "単語_英語" AS word_e
+			, "単語_日本語" AS word_j
+			, "単語_中国語" AS word_c
+			, "例句1_英語" AS sen1_e
+			, "例句1_日本語" AS sen1_j
+			, "例句1_中国語" AS sen1_c
+			, "例句2_英語" AS sen2_e
+			, "例句2_日本語" AS sen2_j
+			, "例句2_中国語" AS sen2_c
+			, "AI説明_AI1_中国語" as ai1_content_ch
+			, "AI説明_AI1_日本語" as ai1_content_jp
+			, "AI説明_AI2_中国語" as ai2_content_ch
+			, "AI説明_AI2_日本語" as ai2_content_jp
+		FROM
+			"STY_単語情報" T
+		WHERE
+			T."書籍" in (
+				'01.三級単語',
+				'02.三級熟語',
+				'03.キクタン',
+				'04.キクジュク',
+				'11.二級単語',
+				'12.二級熟語',
+				'13.キクタン準２級',
+				'14.キクタンBasic',
+				'15.キクタン２級',
+				'90.新概念単語2',
+				'90.新概念単語3'
+			) and (
+				"AI説明_AI1_中国語" is null
+				or
+				"AI説明_AI1_日本語" is null
+				or
+				"AI説明_AI2_中国語" is null
+				or
+				"AI説明_AI2_日本語" is null
+			)
+		ORDER BY
+			"書籍", "分類", "単語SEQ"
+		LIMIT :limit
+	</sql>
+
+	<sql id="selectWordsToAi03">
+		SELECT
+			  "書籍" AS book
+			, "分類" AS classification
+			, "単語SEQ" AS wordseq
+			, "単語_英語" AS word_e
+			, "単語_日本語" AS word_j
+			, "単語_中国語" AS word_c
+			, "例句1_英語" AS sen1_e
+			, "例句1_日本語" AS sen1_j
+			, "例句1_中国語" AS sen1_c
+			, "例句2_英語" AS sen2_e
+			, "例句2_日本語" AS sen2_j
+			, "例句2_中国語" AS sen2_c
+			, "AI説明_AI1_中国語" as ai1_content_ch
+			, "AI説明_AI1_日本語" as ai1_content_jp
+			, "AI説明_AI2_中国語" as ai2_content_ch
+			, "AI説明_AI2_日本語" as ai2_content_jp
+		FROM
+			"STY_単語情報" T
+		WHERE
+			"書籍" in (
+				'91.英語の文800個'
+			) and (
+				"AI説明_AI1_中国語" is null
+				or
+				"AI説明_AI1_日本語" is null
+				or
+				"AI説明_AI2_中国語" is null
+				or
+				"AI説明_AI2_日本語" is null
+			)
+		ORDER BY
+			"書籍", "分類", "単語SEQ"
+		LIMIT :limit
+	</sql>
+
+	<sql id="selectWordsToAi01">
+		SELECT
+			T1."書籍" AS book
+			, T1."分類" AS classification
+			, T1."単語SEQ" AS wordseq
+			, T1."単語_英語" AS word_e 
+		FROM
+			"STY_単語情報" T1 
+			LEFT JOIN "STY_単語質問情報" T2 
+				ON T1."書籍" = T2."書籍" 
+				AND T1."分類" = T2."分類" 
+				AND T1."単語SEQ" = T2."単語SEQ" 
+				AND T2."区分1" in ('英訳日','英訳中')
+		WHERE
+			T1."書籍" in (
+				'01.三級単語',
+				'02.三級熟語',
+				'03.キクタン',
+				'04.キクジュク',
+				'11.二級単語',
+				'12.二級熟語',
+				'13.キクタン準２級',
+				'14.キクタンBasic',
+				'15.キクタン２級',
+				'90.新概念単語2',
+				'90.新概念単語3'
+			)
+			and
+			T2."連番" is null 
+		ORDER BY
+			T1."書籍"
+			, T1."分類"
+			, T1."単語SEQ" 
+		LIMIT :limit
+	</sql>
+	<sql id="updateSiteInfo">
+		UPDATE "STY_サイト制限情報"
+		SET "ステータス" = :status
+	</sql>
+
+	<sql id="selectStudyTime2">
+		SELECT 
+			sum(B."時間") AS TM
+		FROM 
+			"STY_単語テスト詳細情報" B
+		WHERE 
+			to_char(B."更新日時", 'YYYYMMDD') = :d
+			AND
+			B."時間" &lt;= 30
+	</sql>
+
 
 </sqls>
 

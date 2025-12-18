@@ -42,6 +42,18 @@ testword_test_d.fire = function (params) {
 	var classification = selectDetailResult["classification"];
 	var wordseq = selectDetailResult["wordseq"];
 
+
+	// var selectTranslationResult = db.select(
+	// 	"STUDY",
+	// 	"selectSingleWord",
+	// 	{
+	// 		book: book,
+	// 		classification: classification,
+	// 		wordseq: wordseq
+	// 	}
+	// ).getSingle();
+
+
 	var selectTranslationResult = db.select(
 		"STUDY",
 		"selectTranslationInfo",
@@ -58,6 +70,9 @@ testword_test_d.fire = function (params) {
 	var wrongRt3 = selectTranslationResult["wrongrt3"];
 	var wrongRt4 = selectTranslationResult["wrongrt4"];
 	var wrongRt5 = selectTranslationResult["wrongrt5"];
+	var question = selectTranslationResult["question"];
+
+	var explain = selectTranslationResult["explain"];
 
 
 	var strings = [rightRt, wrongRt1, wrongRt2, wrongRt3, wrongRt4, wrongRt5];
@@ -108,6 +123,9 @@ testword_test_d.fire = function (params) {
 			"#hiddenWordC" : selectDetailResult["word_c"],
 
 			"#wordESpan" : selectDetailResult["word_e"],
+
+			"#question" : question,
+			"#explain" : explain,
 
 			"#hiddenRightRt" : rightRt,
 			"#hiddenItem1" : resultArr[0],

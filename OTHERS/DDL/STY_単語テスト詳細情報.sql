@@ -1,29 +1,22 @@
-drop table public."STY_’PŒêƒeƒXƒgÚ×î•ñ";
+drop table public."STY_å˜èªãƒ†ã‚¹ãƒˆè©³ç´°æƒ…å ±";
 
-create table public."STY_’PŒêƒeƒXƒgÚ×î•ñ" (
-    "ƒeƒXƒg”Ô†" character varying(20) 
-  , "}”Ô†" integer
-
-  , "‘Ğ" character varying(50)
-  , "•ª—Ş" character varying(20)
-  , "’PŒêSEQ" integer
-
-  , "ƒXƒe[ƒ^ƒX" character varying(1)
-
-  , "Œë‚è‰ñ”_’PŒê" integer
-  , "Œë‚è‰ñ”_—á‹å1" integer
-  , "Œë‚è‰ñ”_—á‹å2" integer
-
-  , "”»’èŒ‹‰Ê_’PŒê" character varying(10)
-  , "”»’èŒ‹‰Ê_—á‹å1" character varying(10)
-  , "”»’èŒ‹‰Ê_—á‹å2" character varying(10)
-
-  , "ŠÔ" integer
-
-  , "“o˜^ID" character varying(20)
-  , "XVID" character varying(20)
-  , "“o˜^“ú" timestamp(6) without time zone
-  , "XV“ú" timestamp(6) without time zone
-  
-  , primary key("ƒeƒXƒg”Ô†","}”Ô†")
+create table public."STY_å˜èªãƒ†ã‚¹ãƒˆè©³ç´°æƒ…å ±" (
+  "ãƒ†ã‚¹ãƒˆç•ªå·" character varying(20) not null
+  , "æç•ªå·" integer not null
+  , "æ›¸ç±" character varying(50)
+  , "åˆ†é¡" character varying(20)
+  , "å˜èªSEQ" integer
+  , "ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹" character varying(1)
+  , "èª¤ã‚Šå›æ•°_å˜èª" integer
+  , "èª¤ã‚Šå›æ•°_ä¾‹å¥1" integer
+  , "èª¤ã‚Šå›æ•°_ä¾‹å¥2" integer
+  , "åˆ¤å®šçµæœ_å˜èª" character varying(10)
+  , "åˆ¤å®šçµæœ_ä¾‹å¥1" character varying(10)
+  , "åˆ¤å®šçµæœ_ä¾‹å¥2" character varying(10)
+  , "æ™‚é–“" integer
+  , "ç™»éŒ²ID" character varying(20)
+  , "æ›´æ–°ID" character varying(20)
+  , "ç™»éŒ²æ—¥æ™‚" timestamp(6) with time zone
+  , "æ›´æ–°æ—¥æ™‚" timestamp(6) with time zone
+  , primary key ("ãƒ†ã‚¹ãƒˆç•ªå·", "æç•ªå·")
 );

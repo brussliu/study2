@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqls>
+<sqls>
+
+	<sql id="searchSiteList">
+		select
+				"サイト" as site
+			, "ステータス" as status
+			, "分類" as classification
+			, "区分" as div
+			, "条件-月" as condition_1
+			, "条件-火" as condition_2
+			, "条件-水" as condition_3
+			, "条件-木" as condition_4
+			, "条件-金" as condition_5
+			, "条件-土" as condition_6
+			, "条件-日" as condition_7
+			, "条件-休日" as condition_0
+			, "額度-月" as limit_1
+			, "額度-火" as limit_2
+			, "額度-水" as limit_3
+			, "額度-木" as limit_4
+			, "額度-金" as limit_5
+			, "額度-土" as limit_6
+			, "額度-日" as limit_7
+			, "額度-休日" as limit_0
+			, "ロック時間帯" as locktimedaily
+			, "次のロック時間" as nextlocktime
+			, check_game_time_availability(
+					"分類", "区分", "ロック時間帯", 
+					"条件-月", "条件-火", "条件-水", "条件-木", "条件-金", "条件-土", "条件-日", "条件-休日",
+					"額度-月", "額度-火", "額度-水", "額度-木", "額度-金", "額度-土", "額度-日", "額度-休日"
+				) as apply_flg
+			, check_study_completion(
+                    "条件-月", "条件-火", "条件-水", "条件-木", "条件-金", "条件-土", "条件-日", "条件-休日"
+                ) as complet_flg
+			, get_daily_game_quota(
+					"額度-月", "額度-火", "額度-水", "額度-木", "額度-金", "額度-土", "額度-日", "額度-休日"
+				) as game_quota
+		from
+			"STY_サイト制限情報"
+		where
+			1 = 1
+			<if exists="flg"> 
+				<if istrue="flg == '1'">
+				AND "分類" != 'アダルト類'
+				</if>
+			</if>
+			<if exists="site"> 
+				AND "サイト" = :site
+			</if>
+		order by 
+			"ステータス" desc, "分類", "サイト"
+	</sql>
+
+	<sql id="updateLockTime">
+		update "STY_サイト制限情報"
+		set
+			"次のロック時間" = calculate_lock_time("次のロック時間", :time)
+		where
+			"サイト" = :site
+    </sql>
+
+	<sql id="updateApplyTime">
+		update "COM_システム情報"
+		set "値" = cast((cast("値" as integer) + :time) as text)
+		where "キー" = 'accessTime'
+    </sql>
+
+	<sql id="searchSiteList2">
+		select
+			*
+		from (
+			select
+					"サイト" as site
+				, "ステータス" as status
+				, "分類" as classification
+				, "区分" as div
+				, "条件-月" as condition_1
+				, "条件-火" as condition_2
+				, "条件-水" as condition_3
+				, "条件-木" as condition_4
+				, "条件-金" as condition_5
+				, "条件-土" as condition_6
+				, "条件-日" as condition_7
+				, "条件-休日" as condition_0
+				, "額度-月" as limit_1
+				, "額度-火" as limit_2
+				, "額度-水" as limit_3
+				, "額度-木" as limit_4
+				, "額度-金" as limit_5
+				, "額度-土" as limit_6
+				, "額度-日" as limit_7
+				, "額度-休日" as limit_0
+				, "ロック時間帯" as locktimedaily
+				, "次のロック時間" as nextlocktime
+				, check_study_completion(
+						"条件-月", "条件-火", "条件-水", "条件-木", "条件-金", "条件-土", "条件-日", "条件-休日"
+					) as complet_flg
+			from
+				"STY_サイト制限情報"
+		)
+		where
+			1 = 1
+			AND classification != 'アダルト類'
+		order by 
+			div
+	</sql>
+
+	<sql id="updateStatus1">
+		update "STY_サイト制限情報"
+		set "ステータス" = :status
+		where "サイト" = :site
+    </sql>
+	<sql id="updateStatus2">
+		update "STY_サイト制限情報"
+		set "ステータス" = :status,
+		"次のロック時間" = null
+		where "サイト" = :site
+    </sql>
+	<sql id="selectHoliday">
+		select count(*) as isholiday
+		from "STY_休日情報" 
+		where "日付" = to_char(CURRENT_TIMESTAMP, 'YYYYMMDD')
+	</sql>
+</sqls>
+

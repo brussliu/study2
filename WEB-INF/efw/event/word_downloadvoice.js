@@ -8,6 +8,8 @@ word_downloadvoice.paramsFormat = {
 word_downloadvoice.fire = function (params) {
 
 	var ret = new Result();
+	
+	var threadCount = 6;
 
 	// セッションチェック
 	if(sessionCheck(ret) == false){return ret};
@@ -28,161 +30,154 @@ word_downloadvoice.fire = function (params) {
 
 
 	//var mp3_path = "D:/apache-tomcat-9.0.30/webapps/study/mp3/";
-	var mp3_path = "/usr/local/tomcat/webapps/study2/mp3/";
+	var mp3_path = "/usr/local/tomcat/webapps/study2/wordmp3/";
 
 	// 単語テスト詳細情報
 	for(var i = 0;i < selectResult.length;i++){
+		
+		var threads = new Threads(threadCount);
+
+		// if((i+1) % threadCount == threadCount){
+		// 	threads.run();
+		// 	threads = new Threads(threadCount);
+		// }
 
 		var book = selectResult[i]["book"];
 		var classification = selectResult[i]["classification"];
 		var wordseq = selectResult[i]["wordseq"];
 
-		// var type = "";
-		var word_e = selectResult[i]["word_e"] == null ? "" : selectResult[i]["word_e"].replaceAll(" ", "%20").replaceAll("'", "%27").replaceAll("～", "~");
-		var sen1_e = selectResult[i]["sen1_e"] == null ? "" : selectResult[i]["sen1_e"].replaceAll(" ", "%20").replaceAll("'", "%27").replaceAll("～", "~");
-		var sen2_e = selectResult[i]["sen2_e"] == null ? "" : selectResult[i]["sen2_e"].replaceAll(" ", "%20").replaceAll("'", "%27").replaceAll("～", "~");
+		var word_e = selectResult[i]["word_e"];
+		var sen1_e = selectResult[i]["sen1_e"];
+		var sen2_e = selectResult[i]["sen2_e"];
+
+		// var word_e = selectResult[i]["word_e"] == null ? "" : selectResult[i]["word_e"].replaceAll(" ", "%20").replaceAll("'", "%27").replaceAll("～", "~");
+		// var sen1_e = selectResult[i]["sen1_e"] == null ? "" : selectResult[i]["sen1_e"].replaceAll(" ", "%20").replaceAll("'", "%27").replaceAll("～", "~");
+		// var sen2_e = selectResult[i]["sen2_e"] == null ? "" : selectResult[i]["sen2_e"].replaceAll(" ", "%20").replaceAll("'", "%27").replaceAll("～", "~");
 	
 		//var path = "D://apache-tomcat-9.0.30/webapps/study/mp3/" + book + "/" + classification + "/";
-		var path = "/usr/local/tomcat/webapps/study2/mp3/" + book + "/" + classification + "/";
+		var path = mp3_path + book + "/" + classification + "/";
 
 		//////////////////////////////////////////////////////////////////////////////////////////
-		var name0 = wordseq + "-word-0.mp3";
-		var name1 = wordseq + "-word-1.mp3";
-		if (!absfile.exists(path + name0) || !absfile.exists(path + name1)){
-			if(word_e != null && word_e != ''){
-				var args = new Array();
-
-				args[0] = mp3_path;
-				args[1] = book;
-				args[2] = classification;
-				args[3] = wordseq;
-				args[4] = word_e;
-				args[5] = "word";
-
-				excuteJar("OptEnglishVoice",args);
+		if(word_e != null && word_e != ''){
+			var name0 = wordseq + "-word-0.mp3";
+			if (!absfile.exists(path + name0)){
+				threads.add(
+					{ 
+						index: i, 
+						api: "googleAPI",
+						mp3_path: mp3_path,
+						book: book, classification: classification, wordseq: wordseq, content: word_e, 
+						flg: "word",
+						type: "0",
+						run: downloadVoice 
+					}
+				);
+			}
+			var name1 = wordseq + "-word-1.mp3";
+			if (!absfile.exists(path + name1)){
+				threads.add(
+					{ 
+						index: i, 
+						api: "googleAPI",
+						mp3_path: mp3_path,
+						book: book, classification: classification, wordseq: wordseq, content: word_e, 
+						flg: "word",
+						type: "1",
+						run: downloadVoice 
+					}
+				);
 			}
 		}
-		//////////////////////////////////////////////////////////////////////////////////////////
-		var name0 = wordseq + "-sen1-0.mp3";
-		var name1 = wordseq + "-sen1-1.mp3";
-		if (!absfile.exists(path + name0) || !absfile.exists(path + name1)){
-			if(sen1_e != null && sen1_e != ''){
-				var args = new Array();
-
-				args[0] = mp3_path;
-				args[1] = book;
-				args[2] = classification;
-				args[3] = wordseq;
-				args[4] = sen1_e;
-				args[5] = "sen1";
-
-				excuteJar("OptEnglishVoice",args);
-			}
-		}
-		//////////////////////////////////////////////////////////////////////////////////////////
-		var name0 = wordseq + "-sen2-0.mp3";
-		var name1 = wordseq + "-sen2-1.mp3";
-		if (!absfile.exists(path + name0) || !absfile.exists(path + name1)){
-			if(sen2_e != null && sen2_e != ''){
-				var args = new Array();
-
-				args[0] = mp3_path;
-				args[1] = book;
-				args[2] = classification;
-				args[3] = wordseq;
-				args[4] = sen2_e;
-				args[5] = "sen2";
-
-				excuteJar("OptEnglishVoice",args);
-			}
-		}
-		//////////////////////////////////////////////////////////////////////////////////////////
-		// if (!absfile.exists(path)){
-		// 	absfile.makeDir(path);
-		// }
 		
-		// type = "0";
+		//////////////////////////////////////////////////////////////////////////////////////////
+		if(sen1_e != null && sen1_e != ''){
+			var name0 = wordseq + "-sen1-0.mp3";
+			if (!absfile.exists(path + name0)){
+				threads.add(
+					{ 
+						index: i, 
+						api: "googleAPI",
+						mp3_path: mp3_path,
+						book: book, classification: classification, wordseq: wordseq, content: sen1_e, 
+						flg: "sen1",
+						type: "0",
+						run: downloadVoice 
+					}
+				);
+			}
+			var name1 = wordseq + "-sen1-1.mp3";
+			if (!absfile.exists(path + name1)){
+				threads.add(
+					{ 
+						index: i, 
+						api: "googleAPI",
+						mp3_path: mp3_path,
+						book: book, classification: classification, wordseq: wordseq, content: sen1_e, 
+						flg: "sen1",
+						type: "1",
+						run: downloadVoice 
+					}
+				);
+			}
+		}
+		//////////////////////////////////////////////////////////////////////////////////////////
+		if(sen2_e != null && sen2_e != ''){
+			var name0 = wordseq + "-sen2-0.mp3";
+			if (!absfile.exists(path + name0)){
+				threads.add(
+					{ 
+						index: i, 
+						api: "googleAPI",
+						mp3_path: mp3_path,
+						book: book, classification: classification, wordseq: wordseq, content: sen2_e, 
+						flg: "sen2",
+						type: "0",
+						run: downloadVoice 
+					}
+				);
+			}
+			var name1 = wordseq + "-sen2-1.mp3";
+			if (!absfile.exists(path + name1)){
+				threads.add(
+					{ 
+						index: i, 
+						api: "googleAPI",
+						mp3_path: mp3_path,
+						book: book, classification: classification, wordseq: wordseq, content: sen2_e, 
+						flg: "sen2",
+						type: "1",
+						run: downloadVoice 
+					}
+				);
+			}
+		}
+		//////////////////////////////////////////////////////////////////////////////////////////
 
-		// name = wordseq + "-" + type + "-" + "word" + ".mp3";
-		// if (!absfile.exists(path + name)){
-		// 	if(word_e != null && word_e != ''){
-		// 		excuteClass("start", [mp3_path, book, classification, wordseq, "word",type,word_e]);
-		// 	}
-		// }
-
-		// name = wordseq + "-" + type + "-" + "sen1" + ".mp3";
-		// if (!absfile.exists(path + name)){
-		// 	if(sen1_e != null && sen1_e != ''){
-		// 		excuteClass("start", [mp3_path, book, classification, wordseq, "sen1",type,sen1_e]);
-		// 	}
-		// }
-
-		// name = wordseq + "-" + type + "-" + "sen2" + ".mp3";
-		// if (!absfile.exists(path + name)){
-		// 	if(sen2_e != null && sen2_e != ''){
-		// 		excuteClass("start", [mp3_path, book, classification, wordseq, "sen2",type,sen2_e]);
-		// 	}
-		// }
-
-		// type = "1";
-		// name = wordseq + "-" + type + "-" + "word" + ".mp3";
-		// if (!absfile.exists(path + name)){
-		// 	if(word_e != null && word_e != ''){
-		// 		excuteClass("start", [mp3_path, book, classification, wordseq, "word",type,word_e]);
-		// 	}
-		// }
-
-		// name = wordseq + "-" + type + "-" + "sen1" + ".mp3";
-		// if (!absfile.exists(path + name)){
-		// 	if(sen1_e != null && sen1_e != ''){
-		// 		excuteClass("start", [mp3_path, book, classification, wordseq, "sen1",type,sen1_e]);
-		// 	}
-		// }
-
-		// name = wordseq + "-" + type + "-" + "sen2" + ".mp3";
-		// if (!absfile.exists(path + name)){
-		// 	if(sen2_e != null && sen2_e != ''){
-		// 		excuteClass("start", [mp3_path, book, classification, wordseq, "sen2",type,sen2_e]);
-		// 	}
-		// }
+		threads.run();
 
 	}
-	
+
 	// 画面へ結果を返す
 	return ret;
 
 };
-function processArray(arr) {
 
-    // 对数组进行排序
-    let sortedArray = arr.slice().sort();
 
-    // 处理连续数字
-    let result = [];
-    let start = sortedArray[0];
-    let end = sortedArray[0];
+function downloadVoice(){
 
-    for (let i = 1; i < sortedArray.length; i++) {
-        if (sortedArray[i] == addOne(end + 1)) {
-            end = sortedArray[i];
-        } else {
-            if (start == end) {
-                result.push(start);
-            } else {
-                result.push(start + '～' + end);
-            }
-            start = sortedArray[i];
-            end = sortedArray[i];
-        }
-    }
+	var args = new Array();
 
-    // 添加最后一组数字
-    if (start == end) {
-        result.push(start);
-    } else {
-        result.push(start + '～' + end);
-    }
+	args[0] = this.api;
+	args[1] = this.mp3_path;
+	args[2] = this.book;
+	args[3] = this.classification;
+	args[4] = this.wordseq;
+	args[5] = this.content;
+	args[6] = this.flg;
+	args[7] = this.type;
 
-    // 返回结果字符串
-    return result.join(', ');
+	excuteJar("OptVoiceEN",args);
+
 }
+
+

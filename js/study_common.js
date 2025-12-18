@@ -131,11 +131,11 @@ function pronounceA(no) {
 function pronounceB(no, type, flg) {
 
     // 音声ファイルの存在チェック
-    var currentURL = window.location.href;
+    // var currentURL = window.location.href;
 
-    var currentURL = currentURL.substring(0, currentURL.lastIndexOf("/"));
+    // var currentURL = currentURL.substring(0, currentURL.lastIndexOf("/"));
 
-    var pathUrl = "/mp3/" + $("#hiddenBook").val() + "/" + $("#hiddenclassification").val() + "/";
+    var pathUrl = "./wordmp3/" + $("#hiddenBook").val() + "/" + $("#hiddenclassification").val() + "/";
 
     var fileName = "";
     if(no == 1){
@@ -146,21 +146,21 @@ function pronounceB(no, type, flg) {
         fileName = $("#hiddenwordseq").val() + "-sen2-" + type + ".mp3"; 
     }
 
-    if (checkFileExists(currentURL + pathUrl + fileName)) {
+    // if (checkFileExists(currentURL + pathUrl + fileName)) {
         
         var audioElement = document.createElement('audio');
-        audioElement.setAttribute('src', '.' + pathUrl + fileName);
+        audioElement.setAttribute('src', pathUrl + fileName);
         audioElement.setAttribute('autoplay', 'autoplay');
 
-    } else if( flg == true) {
+    // } else if( flg == true) {
 
-        console.log('File does not exist.');
-        Efw('testword_downloadvoice',{type : type});
-        setTimeout(function(){
-            pronounceB(no, type, false);
-        }, 6000);
+    //     console.log('File does not exist.');
+    //     Efw('testword_downloadvoice',{type : type});
+    //     setTimeout(function(){
+    //         pronounceB(no, type, false);
+    //     }, 6000);
 
-    }
+    // }
 
     
 }

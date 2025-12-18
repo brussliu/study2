@@ -37,12 +37,12 @@ testword_downloadvoice.fire = function (params) {
 
 
 	//var path = "D://apache-tomcat-9.0.30/webapps/study/mp3/" + book + "/" + classification + "/";
-	var path = "/usr/local/tomcat/webapps/study2/mp3/" + book + "/" + classification + "/";
+	var path = "/usr/local/tomcat/webapps/study2/wordmp3/" + book + "/" + classification + "/";
 
 	if (!absfile.exists(path)){
 		absfile.makeDir(path);
 	}
-	var mp3_path = "/usr/local/tomcat/webapps/study2/mp3/";
+	var mp3_path = "/usr/local/tomcat/webapps/study2/wordmp3/";
 	if(word_e != null && word_e != ''){
 
 		var args = new Array();

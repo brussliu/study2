@@ -24,7 +24,7 @@ BEGIN
         -- 勉強済
         ELSE 
 
-            IF recentrighttimes >= 2 THEN
+            IF recentrighttimes >= 2 or (per > 90 and recentrighttimes = 1) THEN
                 RETURN '○';
             ELSIF recentrighttimes = 1 THEN
                 RETURN '▲';
@@ -35,17 +35,29 @@ BEGIN
 
     ELSIF kind = 'C.音訳英' THEN
 
-        IF wrong_flg0 = '○' THEN
-
-            IF recentrighttimes >= 1 THEN
-                RETURN '○';
-            ELSE
-                RETURN '-';
-            END IF;
-
-        ELSE 
+        IF per IS NULL THEN
 
             RETURN '-';
+
+        ELSE
+
+            IF wrong_flg0 = '○' THEN
+
+                IF recentrighttimes >= 1 THEN
+                    RETURN '○';
+                ELSE
+                    RETURN '▲';
+                END IF;
+
+            ELSE 
+
+                IF recentrighttimes >= 3 THEN
+                    RETURN '○';
+                ELSE
+                    RETURN '▲';
+                END IF;
+
+            END IF;
 
         END IF;
 

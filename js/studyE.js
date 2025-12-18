@@ -88,13 +88,16 @@ function showWord() {
             // }else{
 
                 word_width = getWidthFromWord(wordEArr[i]);
+
                 // if (/[a-z]/.test(wordE[i])) {
                 //     html = html + "<input type='text' class='inputword' style='width:" + word_width + "px' lang='en' oninput='nextLetter(this);'/>&nbsp;&nbsp;";
                 // }
-                if (/[A-Z]/.test(wordE[i])) {
-                    html = html + "<input type='text' class='inputword inputword2' style='width:" + word_width + "px;background-color: rgb(210,250,210)!important;' lang='en'/>&nbsp;";
+                if (/[A-Z]/.test(wordEArr[i])) {
+
+                    html = html + "<input type='text' class='inputword inputword2' style='width:" + word_width + "px;background-color: rgb(210,250,210)!important;' lang='en' oninput='adjustInputWidth(this," + word_width + ");toUpcase(this);'/>&nbsp;";
                 }else{
-                    html = html + "<input type='text' class='inputword' style='width:" + word_width + "px;' lang='en'/>&nbsp;";
+
+                    html = html + "<input type='text' class='inputword' style='width:" + word_width + "px;' lang='en' oninput='adjustInputWidth(this," + word_width + ")'/>&nbsp;";
                 }
             //}
             
@@ -188,11 +191,59 @@ function showWord() {
 
 function getWidthFromWord(width){
 
-    return 30 * width.length + 10 * 2;
+    return 28 * width.length + 8 * 2;
 
 
 }
+// function getWidthFromWord(word) {
+//     // 基础宽度 + 每个字符的宽度
+//     var baseWidth = 20; // 基础内边距
+//     var charWidth = 12; // 平均字符宽度
+    
+//     // 考虑特殊字符的宽度调整
+//     var widthMultiplier = 1;
+//     if (word.match(/[mw]/g)) {
+//         widthMultiplier += 0.2; // m, w 较宽
+//     }
+//     if (word.match(/[il1]/g)) {
+//         widthMultiplier -= 0.1; // i, l, 1 较窄
+//     }
+    
+//     return baseWidth + (word.length * charWidth * widthMultiplier);
+// }
 
+function adjustInputWidth(inputElement, oldWidth) {
+    var currentValue = inputElement.value;
+    // // 如果输入框为空，使用最小宽度
+    // if (!currentValue) {
+    //     inputElement.style.width = '40px'; // 最小宽度
+    //     return;
+    // }
+    
+    // 根据当前输入内容计算新宽度
+    var newWidth = getWidthFromWord(currentValue);
+
+    if(newWidth > oldWidth){
+        inputElement.style.width = newWidth + 'px';
+    }
+    
+}
+
+function toUpcase(obj){
+    console.log($(obj).val());
+
+    var value = capitalizeWords($(obj).val());
+
+    console.log(value);
+    $(obj).val(value);
+
+}
+
+function capitalizeWords(text) {
+    return text.replace(/\b\w/g, function(char) {
+        return char.toUpperCase();
+    });
+}
 
 function checkWord(){
 
@@ -261,8 +312,13 @@ function overWord(flg){
 
         var inputword = "";
         $(".inputword").each(function(index, element) {
-            inputword = inputword + $(element).val();
+            inputword = inputword + " " + $(element).val();
         });
+
+        // $(".inputword").each(function(index, element) {
+        // inputword = inputword + " " + $(element).val();
+        // });
+
         if(inputword.trim() != ""){
             $('.wrongworddiv').eq(0).html(inputword.trim());
             $('.wrongworddiv').eq(0).parent().css('display', 'flex');

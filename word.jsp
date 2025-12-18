@@ -86,16 +86,18 @@
 
             function getChineseExplain(){
 
-                Efw('word_getchinese');
+                Efw('word_translate');
+
+            }
+
+            function makeChineseItems(){
+
+                Efw('word_makechineseitems');
 
                 setTimeout(function(){
                     searchWord();
                     }, 1000);
                 ;
-            }
-
-            function makeChineseItems(){
-                Efw('word_makechineseitems');
             }
 
             function updateItem(no,obj){
@@ -159,8 +161,8 @@
 
                 if($("#wordstatus1").prop("checked") || $("#wordstatus2").prop("checked") || $("#wordstatus3").prop("checked")){
                 
-                    $("#opt_accuracy").val("");
-                    $("#opt_accuracy").prop("disabled", true);
+                    // $("#opt_accuracy").val("");
+                    // $("#opt_accuracy").prop("disabled", true);
 
                     $("#keyword").val("");
                     $("#keyword").prop("disabled", true);
@@ -172,17 +174,33 @@
                 }
             }
 
+            // 初期化
+            function opAiContentPage(book, classification, wordseq) {
+
+                const windowFeatures =
+                "toolbar=no," + 
+                "location=no," + 
+                "directories=no," + 
+                "status=no," + 
+                "menubar=no," + 
+                "scrollbars=yes," + 
+                "resizable=yes," + 
+                "width=" + screen.availWidth + "," + 
+                "height=" + screen.availHeight;
+
+                window.open("testword_ai_content.jsp", 'aicontent', windowFeatures);
+
+            }
+
             function aiThisWord(book, classification, wordseq){
 
                 Efw('word_expwordbyai',{book : book, classification : classification, wordseq : wordseq});
-
 
             }
         </script>
     </head>
 
     <body onload="init();">
-        <efw:Part path="word_inputdialog.jsp" />
         <div style="overflow: auto;">
             <div class="head">
                 <div class="hleft">
@@ -226,18 +244,6 @@
                                         <option value=""></option>
                                     </select>
                                 </td>
-                                <td style="width: 200px;">
-                                    正確率:
-                                    <select id="opt_accuracy" style="width: 100px;" >
-                                        <option value=""></option>
-                                        <option value="1">100%</option>
-                                        <option value="2">100%未満</option>
-                                        <option value="3">85%未満</option>
-                                        <option value="4">85%～100%</option>
-                                        <option value="5">50%～85%</option>
-                                        <option value="6">50%未満</option>
-                                    </select>
-                                </td>
                                 <td style="width: 250px;">
                                     キーワード:
                                     <input type="text" style="width: 120px;height: 25px;" id="keyword">
@@ -264,13 +270,14 @@
                                 <th style="width: 150px;">書籍</th>
                                 <th style="width: 80px;">分類</th>
                                 <th style="width: 80px;">単語SEQ</th>
-                                <th style="width: 150px;">テスト種別</th>
 
-                                <th style="width: 100px;color: red;background-color: aqua;">時間</th>
-                                <th style="width: 100px;color: red;background-color: aqua;">テスト回数</th>
-                                <th style="width: 100px;color: red;background-color: aqua;">全部正確回数</th>
-                                <th style="width: 100px;color: red;background-color: aqua;">直近正確回数</th>
-                                <th style="width: 100px;color: red;background-color: aqua;">全部正確率</th>
+                                <th style="width: 250px;background-color: yellow;">単語</th>
+                                <th style="width: 200px;background-color: yellow;">日本語</th>
+                                <th style="width: 500px;background-color: yellow;">中国語</th>
+
+                                <th style="width: 200px;background-color: greenyellow;">例句1</th>
+                                <th style="width: 200px;background-color: greenyellow;">日本語</th>
+                                <th style="width: 500px;background-color: greenyellow;">中国語</th>
 
                                 <th style="width: 100px;background-color: lightgray;">三級単語</th>
                                 <th style="width: 100px;background-color: lightgray;">三級熟語</th>
@@ -282,23 +289,13 @@
                                 <th style="width: 100px;background-color: lightgray;">キクタンBasic</th>
                                 <th style="width: 100px;background-color: lightgray;">キクタン２級</th>
 
-                                <th style="width: 200px;background-color: yellow;">単語</th>
-                                <th style="width: 200px;background-color: yellow;">日本語</th>
-                                <th style="width: 500px;background-color: yellow;">中国語</th>
-                                <th style="width: 100px;background-color: yellow;">正解回数</th>
-                                <th style="width: 100px;background-color: yellow;">誤り回数</th>
+                                <th style="width: 100px;background-color: lightgray;">準一級単語</th>
+                                <th style="width: 100px;background-color: lightgray;">一級単語</th>
 
-                                <th style="width: 250px;background-color: greenyellow;">例句1</th>
-                                <th style="width: 250px;background-color: greenyellow;">日本語</th>
-                                <th style="width: 250px;background-color: greenyellow;">中国語</th>
-                                <th style="width: 100px;background-color: greenyellow;">正解回数</th>
-                                <th style="width: 117px;background-color: greenyellow;">誤り回数</th>
+                                <th style="width: 100px;background-color: lightgray;">新概念単語２</th>
+                                <th style="width: 100px;background-color: lightgray;">新概念単語３</th>
 
-                                <!-- <th style="width: 250px;background-color: skyblue;">例句2</th>
-                                <th style="width: 250px;background-color: skyblue;">日本語</th>
-                                <th style="width: 250px;background-color: skyblue;">中国語</th>
-                                <th style="width: 100px;background-color: skyblue;">正解回数</th>
-                                <th style="width: 117px;background-color: skyblue;">誤り回数</th> -->
+                                <th style="width: 217px;background-color: lightskyblue;">ステータス</th>
 
                             </tr>
                         </thead>
