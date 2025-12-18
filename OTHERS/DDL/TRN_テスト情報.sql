@@ -1,14 +1,35 @@
-drop table public."TRN_ƒeƒXƒgî•ñ";
+/*
+ Navicat Premium Data Transfer
 
-create table public."TRN_ƒeƒXƒgî•ñ" (
-    "ƒeƒXƒgSEQ" character varying(20) primary key
-  , "ƒeƒXƒgŠw”N" character varying(20)
-  , "ƒeƒXƒg–¼Ì" character varying(100)
-  , "ŠúŠÔFROM" timestamp(6) without time zone
-  , "ŠúŠÔTO" timestamp(6) without time zone
-  , "“à—eSEQ" character varying(500)
-  , "“o˜^ID" character varying(20)
-  , "XVID" character varying(20)
-  , "“o˜^“ú" timestamp(6) without time zone
-  , "XV“ú" timestamp(6) without time zone
-);
+ Source Server         : study2
+ Source Server Type    : PostgreSQL
+ Source Server Version : 110005
+ Source Host           : localhost:54320
+ Source Catalog        : study2
+ Source Schema         : public
+
+ Target Server Type    : PostgreSQL
+ Target Server Version : 110005
+ File Encoding         : 65001
+
+ Date: 18/12/2025 13:54:20
+*/
+
+
+-- ----------------------------
+-- Table structure for TRN_ãƒ†ã‚¹ãƒˆæƒ…å ±
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."TRN_ãƒ†ã‚¹ãƒˆæƒ…å ±";
+CREATE TABLE "public"."TRN_ãƒ†ã‚¹ãƒˆæƒ…å ±" (
+  "ãƒ†ã‚¹ãƒˆSEQ" varchar(20) COLLATE "pg_catalog"."default" NOT NULL,
+  "ãƒ†ã‚¹ãƒˆå­¦å¹´" varchar(20) COLLATE "pg_catalog"."default",
+  "ãƒ†ã‚¹ãƒˆåç§°" varchar(100) COLLATE "pg_catalog"."default",
+  "æœŸé–“FROM" timestamp(6),
+  "æœŸé–“TO" timestamp(6),
+  "å†…å®¹SEQ" varchar(500) COLLATE "pg_catalog"."default",
+  "ç™»éŒ²ID" varchar(20) COLLATE "pg_catalog"."default",
+  "æ›´æ–°ID" varchar(20) COLLATE "pg_catalog"."default",
+  "ç™»éŒ²æ—¥æ™‚" timestamp(6),
+  "æ›´æ–°æ—¥æ™‚" timestamp(6)
+)
+;

@@ -45,7 +45,8 @@ public class Start {
 		  
 		  private static void excute(String opt, String[] parameter) {
 		    try {
-		      Class<?> clazz = Class.forName("opt." + opt);
+		      Class<?> clazz = Class.forName("core." + opt);
+			//    Class<?> clazz = Class.forName("opt." + opt);
 		      Object instance = clazz.newInstance();
 		      Method method = clazz.getMethod("excute", new Class[] { String[].class });
 		      method.invoke(instance, new Object[] { parameter });
