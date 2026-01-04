@@ -1,15 +1,35 @@
-drop table public."TRN_テスト情報";
+/*
+ Navicat Premium Data Transfer
 
-create table public."TRN_テスト情報" (
-  "テストSEQ" character varying(20) not null
-  , "テスト学年" character varying(20)
-  , "テスト名称" character varying(100)
-  , "期間FROM" timestamp(6) without time zone
-  , "期間TO" timestamp(6) without time zone
-  , "内容SEQ" character varying(20)
-  , "登録ID" character varying(20)
-  , "更新ID" character varying(20)
-  , "登録日時" timestamp(6) without time zone
-  , "更新日時" timestamp(6) without time zone
-  , primary key ("テストSEQ")
-);
+ Source Server         : study2
+ Source Server Type    : PostgreSQL
+ Source Server Version : 110005
+ Source Host           : localhost:54320
+ Source Catalog        : study2
+ Source Schema         : public
+
+ Target Server Type    : PostgreSQL
+ Target Server Version : 110005
+ File Encoding         : 65001
+
+ Date: 18/12/2025 13:54:20
+*/
+
+
+-- ----------------------------
+-- Table structure for TRN_テスト情報
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."TRN_テスト情報";
+CREATE TABLE "public"."TRN_テスト情報" (
+  "テストSEQ" varchar(20) COLLATE "pg_catalog"."default" NOT NULL,
+  "テスト学年" varchar(20) COLLATE "pg_catalog"."default",
+  "テスト名称" varchar(100) COLLATE "pg_catalog"."default",
+  "期間FROM" timestamp(6),
+  "期間TO" timestamp(6),
+  "内容SEQ" varchar(500) COLLATE "pg_catalog"."default",
+  "登録ID" varchar(20) COLLATE "pg_catalog"."default",
+  "更新ID" varchar(20) COLLATE "pg_catalog"."default",
+  "登録日時" timestamp(6),
+  "更新日時" timestamp(6)
+)
+;

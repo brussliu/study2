@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqls>
+<sqls>
+<!--    检索類型-->
+    <sql id="searchType">
+        SELECT  DISTINCT  "類型" as type
+        FROM "プロンプト情報管理"
+        ORDER BY "類型" ASC
+
+    </sql>
+
+<!--    检索プロンプト概要-->
+    <sql id="searchSummary">
+        SELECT t1."プロンプト概要" as summary
+        FROM "プロンプト情報管理" t1
+        WHERE
+            1=1
+        <if exists="type">AND  t1."類型" = :type</if>
+        ORDER BY "類型" ASC
+    </sql>
+<!--检索プロンプト詳細&戻る値種類-->
+    <sql id="searchDetailedAndCategory">
+        SELECT
+                t1."プロンプト詳細" as detailed,
+                t1."戻る値種類" as category
+        FROM "プロンプト情報管理" t1
+        WHERE
+        1=1
+        <if exists="type">AND  t1."類型" = :type</if>
+        <if exists="summary">AND  t1."プロンプト概要" = :summary</if>
+        ORDER BY "類型" ASC
+    </sql>
+    <!--检索番号-->
+    <sql id="searchNo">
+        SELECT
+        t1."番号" as no
+        FROM "AI質問情報管理" t1
+        WHERE
+        1=1
+        <if exists="type">AND  t1."類型" = :type</if>
+        <if exists="summary">AND  t1."プロンプト概要" = :summary</if>
+
+    </sql>
+<!--    检索-->
+    <sql id="searchAll">
+        SELECT
+        t2."番号" as no,
+        t1."類型" as type,
+        t2."難易度" as difficulty,
+        t2."戻る値種類" as category,
+        t1."プロンプト概要" as summary,
+        t2."ステータス" as state,
+        TO_CHAR(t1."登録日時", 'YYYY-MM-DD HH24-MI-SS') as registrationdate ,
+        TO_CHAR(t2."更新日時", 'YYYY-MM-DD HH24-MI-SS') as updatedate
+        FROM
+        "プロンプト情報管理" t1 right JOIN 	"AI質問情報管理" t2
+        ON t1."プロンプト概要" = t2."プロンプト概要" AND t1."類型" = t2."類型"
+        WHERE
+        1 = 1
+        <if exists="type"> AND t1."類型"  = :type</if>
+        <if exists="difficulty"> AND t2."難易度"  = :difficulty</if>
+        ORDER BY t2."番号" ASC
+    </sql>
+    <!--    检索回答信息-->
+    <sql id="searchAnswerListForNO">
+        SELECT
+            t1."番号" as no,
+            t1."回答" as answer,
+            t1."戻る値種類" as category,
+            coalesce(t1."メモー１" , null) as memo1,
+            coalesce(t1."メモー２" , null) as memo2,
+            coalesce(t1."メモー３" , null) as memo3,
+            coalesce(t1."メモー４" , null) as memo4,
+            coalesce(t1."メモー５" , null) as memo5,
+            t1."ステータス" as state
+        FROM "AI質問情報管理" t1
+        WHERE t1."番号" = :no
+    </sql>
+
+    <!--    查询Ai回复-->
+    <sql id="selectAiReply">
+        SELECT
+            coalesce(t1."回答" , '')as answer,
+            t1."ステータス" as state
+        FROM "AI質問情報管理" t1
+        WHERE 1=1
+        <if exists="no"> AND t1."番号"  = :no</if>
+        <if exists="shopid"> AND t1."登録ID" = :shopid</if>
+    </sql>
+
+    <!--    新增Ai回复-->
+    <sql id="insertAiAnswer">
+        INSERT INTO "AI質問情報管理"
+        VALUES(
+                :no,
+                :type,
+                :summary,
+                :detailed,
+                :category,
+                :state,
+                :difficulty,
+                :aiopt,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+
+                :shopid,
+                null,
+                to_timestamp(CAST(CURRENT_TIMESTAMP AS text), 'YYYY-MM-DD HH24-MI-SS'),
+                null
+        )
+    </sql>
+
+
+    <!--    修改回答-->
+    <sql id="updateMemo">
+        UPDATE
+             "AI質問情報管理"
+        SET
+            "メモー１" = :memo1,
+            "メモー２" = :memo2,
+            "メモー３" = :memo3,
+            "メモー４" = :memo4,
+            "メモー５" = :memo5,
+            "ステータス" = :state,
+            "更新日時" = to_timestamp(CAST(CURRENT_TIMESTAMP AS text), 'YYYY-MM-DD HH24-MI-SS')
+        WHERE
+            "番号" = :no
+    </sql>
+
+    <!--    删除回复-->
+    <sql id="deleteAiAnswer">
+        DELETE FROM  "AI質問情報管理"
+        WHERE "番号" = :no AND "登録ID" = :shopid
+
+    </sql>
+</sqls>
+
