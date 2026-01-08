@@ -15,13 +15,40 @@ import java.util.HashMap;
 
 public class OptTask03 extends AiTaskExecutor {
     private Logger logger = Logger.getLogger(OptTask03.class);
-
+//    DBManager db = new DBManager();
     // 数据库连接（核心：两次新增共用同一个Connection）
     private Connection connection;
     @Override
     protected String makePrompt() {
 
-        String word = parameter[1];
+        //番号
+        String no = parameter[0];
+        //用户
+        String shopId = parameter[3];
+
+        StringBuffer query = new StringBuffer();
+        query.append("SELECT  t.\"プロンプト詳細\" ").append("\r\n");
+        query.append("FROM  \"プロンプト情報管理\" t ").append("\r\n");
+        query.append("LEFT JOIN \"AI質問情報管理\" t1  ").append("\r\n");
+        query.append("ON t.\"プロンプト概要\" = t1.\"プロンプト概要\"  ").append("\r\n");
+        query.append("AND t.\"類型\" = t1.\"類型\" ").append("\r\n");
+        query.append("AND t1.\"番号\" = ? ").append("\r\n");
+        query.append("AND t1.\"登録ID\" =  ? ").append("\r\n");
+
+        ArrayList<HashMap<String, Object>> result = DBManager.select(
+                query.toString(),
+                no,
+                shopId
+        );
+        logger.info("result:"+result);
+
+        String word = String.valueOf(result.get(0).get("プロンプト詳細"));
+        if (word == null || word.isEmpty()) {
+            logger.error("查询结果集为空，无法获取索引0的行数据！");
+            throw new IllegalStateException("查询结果集为空，无法获取索引0的行数据！");
+
+        }
+        logger.info("word:"+word);
 
         return word ;
     }
@@ -30,7 +57,7 @@ public class OptTask03 extends AiTaskExecutor {
     @Override
     protected String callAPI(String prompt)  {
         // 调用AI API
-        AiClient client = AiClientFactory.getClient(parameter[2]);
+        AiClient client = AiClientFactory.getClient(parameter[1]);
 
         logger.info("ai连接成功");
         // 获取响应内容
@@ -44,12 +71,12 @@ public class OptTask03 extends AiTaskExecutor {
         try {
             logger.info("解析响应内容: " + rawResponse);
 
-            if ("文章".equals(parameter[3])) {
+            if ("文章".equals(parameter[2])) {
                 response= rawResponse;
-            } else if ("HTML".equals(parameter[3])) {
+            } else if ("HTML".equals(parameter[2])) {
                 response =  HtmlUtil.toHtml(rawResponse);
 
-            } else if ("JSON".equals(parameter[3])) {
+            } else if ("JSON".equals(parameter[2])) {
                 response = rawResponse;
             }
          
@@ -71,30 +98,13 @@ public class OptTask03 extends AiTaskExecutor {
         //ステータス
         String state = "作成済";
 
-        //ai选择
-        String shopId = parameter[4];
+        //用户
+        String shopId = parameter[3];
         try {
-            //to_timestamp(CAST(CURRENT_TIMESTAMP AS text), 'YYYY-MM-DD HH24:MI:SS')
+
             logger.info("新增开始");
             //更新状态与更新回答内容
-            // String sql2 = "UPDATE \"AI質問情報管理\" SET " +
-            //         "\"回答\" = ?," +
-            //         "\"ステータス\" = ?," +
-            //         "\"更新ID\" = ?," +
-            //         "\"更新日時\" =   to_timestamp(CAST(CURRENT_TIMESTAMP AS text), 'YYYY-MM-DD HH24:MI:SS') " +
-            //         "WHERE  \"番号\" = ? AND \"登録ID\" = ?";
 
-            // String sql = "  SELECT\n" +
-            //         "            t1.\"番号\" as no,\n" +
-            //         "            t1.\"回答\" as answer,\n" +
-            //         "            t1.\"戻る値種類\" as category,\n" +
-            //         "            t1.\"ステータス\" as state\n" +
-            //         "        FROM \"AI質問情報管理\" t1\n" +
-            //         // "        WHERE t1.\"番号\" = '"+no+"'";
-            //         "        WHERE t1.\"番号\" = '20251207-104323'";
-            //
-            //
-            // parsedResult=parsedResult.toString().replaceAll("[\n\r]", "");
             System.out.println("parsedResult："+parsedResult);
             StringBuffer updateSQL = new StringBuffer();
             updateSQL.append("UPDATE \"AI質問情報管理\" ").append("\r\n");
