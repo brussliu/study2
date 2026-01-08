@@ -42,20 +42,12 @@ ai_Generate.fire = function (params) {
 	);
 
 
-
-	var args = new Array();
-	args[0] = no;
-	args[1] = detailed;
-	args[2] = aiopt;
-	args[3] = category;
-	args[4] = getShopId();
-
-	ret.eval("   toJAVA( '"+no+"',' "+detailed+"','"+aiopt+"', '"+category+"','"+ getShopId()+"');")
+	ret.eval("   toJAVA( '"+no+"','"+aiopt+"', '"+category+"','"+ getShopId()+"');")
 	// 画面へ結果を返す
 	return ret;
 
 };
-
+// 格式化日期
 function formatTime(date) {
 	var year = date.getFullYear();
 	var month = (date.getMonth() + 1).toString().padStart(2, '0');

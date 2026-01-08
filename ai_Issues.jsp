@@ -161,20 +161,27 @@
             }
 
         //    JAVA
-            async function toJAVA(no,detailed,aiopt,category,shopid){
-
+            async function toJAVA(no,aiopt,category,shopid){
+                // java -jar
                 var args = new Array();
                 args[0] = no;
-                args[1] = detailed;
-                args[2] = aiopt;
-                args[3] = category;
-                args[4] = shopid;
+                args[1] = aiopt;
+                args[2] = category;
+                args[3] = shopid;
+
+                // java -cp
+                // var args = new Array();
+                // args[0] = "OptTask03";
+                // args[1] = no;
+                // args[2] = aiopt;
+                // args[3] = category;
+                // args[4] = shopid;
                 await   Efw('ai_Generate2',{args : args});
             }
             async function toJAVA2(no){
                 await   Efw('ai_Generate3',{no : no});
             }
-        //    删除
+            //   删除
             function deleteTest(){
                 var selectedValues = [];
                 $("input[name='testitem']:checked").each(function() {
