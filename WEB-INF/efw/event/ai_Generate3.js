@@ -18,7 +18,7 @@ ai_Generate3.fire = function (params) {
 		"AILSSUES",
 		"selectAiReply",
 		{
-			no:"no",
+			no:no,
 			shopid:shopid
 		}
 	).getSingle();
