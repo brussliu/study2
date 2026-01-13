@@ -196,13 +196,6 @@
       }
     }
     </style>
-	<script>
-		$(document).keyup(function(event){
-			if(event.keyCode ==13){
-				$("#btn_login").trigger("click");
-			}
-		});
-	</script>
 </head>
 
 <body style="background-color:ghostwhite;" onload="Efw('common_logininit');">
@@ -213,7 +206,7 @@
 			<h2 class="form__title">ログイン </h2>
 			<input type="text" placeholder="UserID" class="input" id="txt_userid"/>
 			<input type="password" placeholder="Password" class="input" id="txt_userpassword"/>
-			<button class="btn"onclick="Efw('common_login');" id="btn_login">ログイン </button>
+			<button class="btn"onclick="Efw('common_login');">ログイン </button>
 		  </div>
 		</div>
 	

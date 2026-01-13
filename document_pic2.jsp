@@ -57,6 +57,9 @@
         var row = urlParams.get('row');
         var col = urlParams.get('col');
 
+        var fextension = urlParams.get('fextension');
+        var comment = urlParams.get('comment');
+
         var pic_w;
         var pic_h;
         let scale = 1;
@@ -196,7 +199,7 @@
 
         }
 
-        function mergeImages(base64Image1, base64Image2) {
+        function mergeImages(base64Image1, base64Image2, flg) {
 
             const img1 = new Image();
             const img2 = new Image();
@@ -239,7 +242,16 @@
 
                 // alert(row);
                 // alert(col);
-                window.opener.setPicContent(row, col, mergedBase64);
+                if(flg == false){
+
+                    window.opener.setPicContent(row, col, mergedBase64);
+                }else{
+                    
+                    // 画像表示
+                    window.opener.displayPic(mergedBase64, fextension, comment + "_書き込み" );
+
+                }
+
 
                 window.close();
             });
@@ -255,7 +267,20 @@
 
             // alert(picBase64);
             // alert(signImgSrc);
-            mergeImages(picBase64, signImgSrc);
+            mergeImages(picBase64, signImgSrc, false);
+
+        }
+
+        function saveNewMemo(){
+            let canvas_box = $("#canvas_box");
+            let datapair = canvas_box.jSignature("getData","image");
+            let signImgSrc = 'data:' + datapair[0] + "," + datapair[1];
+
+            var picBase64 = $("#picsrc").val();
+
+            // alert(picBase64);
+            // alert(signImgSrc);
+            mergeImages(picBase64, signImgSrc, true);
 
         }
     </script>
@@ -285,6 +310,7 @@
             <span id="zoomtxt">100%</span>
             &nbsp;&nbsp;&nbsp;&nbsp;
             <button id="save_btn" style="width: 120px;" onclick="saveMemo();">保存</button>
+            <button id="save_btn" style="width: 120px;" onclick="saveNewMemo();">新規で保存</button>
         </div>
         <div id="canvas_box" style="text-align: center;overflow: auto;" class="S0">
         </div>

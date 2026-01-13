@@ -312,7 +312,7 @@
 		GROUP BY
 			T
 		) L2 on L1.DLIST = L2.T
-		ORDER BY to_char(L1.DLIST,'MM/DD')
+		ORDER BY to_char(L1.DLIST,'YYYY/MM/DD')
 	</sql>
 
 
@@ -350,10 +350,10 @@
 			, "例句2_中国語" AS sen2_c
 		FROM
 			"STY_単語情報" T
-		<!-- <if exists="status">
+		<if exists="status">
 		LEFT JOIN "V_単語情報リスト" D
 		ON T."書籍" = D.book AND T."分類" = D.classification AND T."単語SEQ" = D.wordseq
-		</if> -->
+		</if>
 		WHERE
 			1 = 1
 			<if exists="dayfrom"> AND (
@@ -364,14 +364,17 @@
 				<if istrue="dayto != ''"> T."分類" &lt;= :dayto </if>
 				)
 			</if>
-			<!-- <if exists="status"> AND (
+			<if exists="status"> AND (
 				<if istrue="status == '未勉強'"> D.wrong_flg = '-' </if>
 				<if istrue="status == '勉強中'"> D.wrong_flg in ('△','▲') </if>
 				<if istrue="status == '勉強済'"> D.wrong_flg = '○' </if>
 				)
-			</if> -->
+			</if>
 			<if exists="book">
 				AND T."書籍" = :book
+			</if>
+			<if exists="kind">
+				AND D.kind = :kind
 			</if>
 		ORDER BY 
 		<!-- 		
@@ -1398,8 +1401,6 @@
 		FROM
 			"STY_単語質問情報" T
 		WHERE 
-			T."区分1" = '中訳英'
-			AND
 			T."書籍" = :book 
 			AND 
 			T."分類" = :classification 

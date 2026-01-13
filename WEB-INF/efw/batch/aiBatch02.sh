@@ -5,4 +5,4 @@ export WEBHOME=$TOMCAT/webapps/study2
 export PROPERTIES=$WEBHOME/WEB-INF/classes/batch.properties
 export CLASSPATH=$WEBHOME/WEB-INF/classes:$WEBHOME/WEB-INF/lib/*:$TOMCAT/lib/*
 
-$JDK/java efw.efwBatch "{\"eventId\":\"aiBatch02\",\"params\":{}}" >> $TOMCAT/logs/batchlog/aiBatch02_$(date +%Y%m%d-%H%M).log 2>&1
+$JDK/java efw.efwBatch "{\"eventId\":\"aiBatch02\",\"params\":{}}" >> $TOMCAT/logs/study2/batchlog/aiBatch02_$(date +%Y%m%d-%H%M).log 2>&1

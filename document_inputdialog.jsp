@@ -104,10 +104,10 @@
 
                         if(isPic(fextension)){
                             // 画像表示
-                            displayPic(e.target.result, fextension, "");
+                            displayPic(e.target.result, fextension, fname);
                         }else{
 
-                            displayFile(e.target.result, fextension, "")
+                            displayFile(e.target.result, fextension, fname);
                             
                         }
                     };
@@ -261,7 +261,8 @@
                 var tdObj = $(obj).parent().parent();
                 var rowIndex = tdObj.parent().index();
                 var colIndex = tdObj.index();
-
+                var fextension = $(obj).next().val();
+                var comment = $(obj).parent().next().val();
 
                 var imgObj = $(obj).parent().children().eq(0);
                 var base64Image = imgObj.attr("src");
@@ -280,7 +281,7 @@
                     // "width=" + screen.availWidth + "," + 
                     // "height=" + screen.availHeight;
 
-                const picw = window.open("document_pic2.jsp?row=" + rowIndex + "&col=" + colIndex, 'detailpic', windowFeatures);
+                const picw = window.open("document_pic2.jsp?row=" + rowIndex + "&col=" + colIndex + "&fextension=" + fextension + "&comment=" + comment, 'detailpic', windowFeatures);
 
                 picw.onload = function(){
                     picw.document.getElementById('picsrc').value = base64Image;

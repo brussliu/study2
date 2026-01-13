@@ -99,7 +99,7 @@
             }
 
             // 初期化
-            function opAiContentPage(book, classification, wordseq) {
+            function openAiContentPage(book, classification, wordseq) {
 
                 const windowFeatures =
                 "toolbar=no," + 

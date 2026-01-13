@@ -19,8 +19,7 @@ ai_Delete.fire = function (params) {
 			"AILSSUES",
 			"deleteAiAnswer",
 			{
-				no:selectedValues[i],
-				shopid:getShopId()
+				no:selectedValues[i]
 			}
 		);
 	}

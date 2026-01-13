@@ -118,9 +118,8 @@ aiBatch03.fire=function(params){
 		if(now >= "00:00" && now <= "00:01"){
 
 			// 申請時間を0に変更
-			db.change("SITE", "updateApplyTime",
+			db.change("SITE", "initApplyTime",
 				{
-					time : '0',
 				}
 			);
 

@@ -21,7 +21,7 @@
                 font-weight: bold;
             }
 
-            #btn_testlist {
+            /* #btn_testlist {
                 background-image: url('img/search.png');
                 background-size: 38px 38px;
                 background-repeat: no-repeat;
@@ -33,8 +33,8 @@
                 background-size: 38px 38px;
                 background-repeat: no-repeat;
                 background-position: center;
-            }
-            #btn_delete {
+            } */
+            /* #btn_delete {
                 background-image: url('img/delete.png');
                 background-size: 38px 38px;
                 background-repeat: no-repeat;
@@ -47,10 +47,10 @@
                 background-repeat: no-repeat;
                 background-position: center;
                 filter: brightness(1);
-            }
+            } */
 
 
-            #btn_aianswer {
+            /* #btn_aianswer {
                 background-image: url('img/回答.png');
                 background-size: 38px 38px;
                 background-repeat: no-repeat;
@@ -63,13 +63,13 @@
                 background-repeat: no-repeat;
                 background-position: center;
                 filter: brightness(1);
-            }
-            #btn_aigenerate {
+            } */
+            /* #btn_aigenerate {
                 background-image: url('img/AI生成.png');
                 background-size: 38px 38px;
                 background-repeat: no-repeat;
                 background-position: center;
-            }
+            } */
             select {
                 height: 30px;
             }
@@ -99,9 +99,7 @@
                     Efw('ai_lssues_PromptInit',{type : '' , summary : '' , obj : obj});
                     $("#text_detailed2").val("");
                     $("#opt_summary2").empty();
-                    $("#opt_difficulty2").val("");
                     $("#opt_category2").val("");
-                    $("#opt_aiopt2").val("");
                     ai_Issues_Promptdialog.dialog('open');
                 }
             }
@@ -123,22 +121,22 @@
             }
             //回答
             function aiAnswer(){
-              var selectedValues =  $("input[name='testitem']:checked").val();
 
-                    const windowFeatures =
-                        "toolbar=no," +
-                        "location=no," +
-                        "directories=no," +
-                        "status=no," +
-                        "menubar=no," +
-                        "scrollbars=yes," +
-                        "resizable=yes," +
-                        "width=" + screen.availWidth + "," +
-                        "height=" + screen.availHeight;
+                var selectedValues =  $("input[name='testitem']:checked").val();
 
-                     localStorage.setItem("selectedValues", JSON.stringify(selectedValues));
-                    window.open("ai_Issues_Promptpop.jsp", 'fullscreenWindow', windowFeatures);
+                const windowFeatures =
+                    "toolbar=no," +
+                    "location=no," +
+                    "directories=no," +
+                    "status=no," +
+                    "menubar=no," +
+                    "scrollbars=yes," +
+                    "resizable=yes," +
+                    "width=" + screen.availWidth + "," +
+                    "height=" + screen.availHeight;
 
+                localStorage.setItem("selectedValues", JSON.stringify(selectedValues));
+                window.open("ai_Issues_Promptpop.jsp", 'fullscreenWindow', windowFeatures);
 
             }
 
@@ -160,28 +158,19 @@
                 }
             }
 
-        //    JAVA
-            async function toJAVA(no,aiopt,category,shopid){
-                // java -jar
-                var args = new Array();
-                args[0] = no;
-                args[1] = aiopt;
-                args[2] = category;
-                args[3] = shopid;
+        // //    JAVA
+        //     async function toJAVA(no,aiopt,category){
 
-                // java -cp
-                // var args = new Array();
-                // args[0] = "OptTask03";
-                // args[1] = no;
-                // args[2] = aiopt;
-                // args[3] = category;
-                // args[4] = shopid;
-                await   Efw('ai_Generate2',{args : args});
-            }
-            async function toJAVA2(no){
-                await   Efw('ai_Generate3',{no : no});
-            }
-            //   删除
+        //         var args = new Array();
+        //         args[0] = aiopt;
+        //         args[1] = no;
+        //         args[2] = category;
+        //         await   Efw('ai_Generate2',{args : args});
+        //     }
+        //     async function toJAVA2(no){
+        //         await   Efw('ai_Generate3',{no : no});
+        //     }
+        //    删除
             function deleteTest(){
                 var selectedValues = [];
                 $("input[name='testitem']:checked").each(function() {
@@ -189,12 +178,31 @@
                 });
                 Efw('ai_Delete',{selectedValues : selectedValues});
             }
+
+
+            function changeColor(){
+
+                $("#testwordtable .tr1").each(function () {
+
+                    var status = $(this).children().eq(3).children().eq(0).html();
+
+                    if(status == "回答済"){
+                        $(this).css("background-color", "rgb(200,200,200)");
+                    }else if(status == "作成済"){
+                        $(this).css("background-color", "rgb(200,255,255)");
+                    }
+
+                });
+
+            }
+
+
+
         </script>
     </head>
 
     <body onload="init();">
         <efw:Part path="ai_Issues_Promptdialog.jsp" />
-<%--        <efw:Part path="ai_Issues_Promptpop.jsp" />--%>
         <div style="overflow: auto;">
             <div class="head">
                 <div class="hleft">
@@ -246,29 +254,16 @@
                                 <td style="text-align: right;color: red;font-weight: bold;vertical-align:middle;display: table-cell;"> </td>
                                 <td style="width: 80px;"></td>
                                 <td style="width: 80px;">
-                                    <button id="btn_testlist" onclick="searchList();" style="width: 50px;height: 50px;">
-                                    </button>
+                                    <button id="btn_testlist" onclick="searchList();" style="width: 60px;">検索</button>
+                                </td>
+                                <td style="width: 120px;">
+                                    <button id="btn_aigenerate" onclick="aiPrompt('')" style="width: 100px;">内容生成</button>
                                 </td>
                                 <td style="width: 80px;">
-                                    <button id="btn_aigenerate" onclick="aiPrompt('')" style="width: 50px;height: 50px;">
-                                    </button>
+                                    <button id="btn_aianswer" onclick="aiAnswer()" style="width: 60px;"  disabled>勉強</button>
                                 </td>
                                 <td style="width: 80px;">
-                                    <button id="btn_aianswer" onclick="aiAnswer()" style="width: 50px;height: 50px;"  disabled>
-                                    </button>
-                                </td>
-                                <td style="width: 80px;">
-                                    <button id="btn_delete" onclick="deleteTest()" style="width: 50px;height: 50px;" disabled>
-                                    </button>
-                                </td>
-                                <td style="width: 80px;">
-
-                                </td>
-                                <td style="width: 80px;">
-
-                                </td>
-                                <td style="width: 80px;">
-
+                                    <button id="btn_delete" onclick="deleteTest()" style="width: 60px;" disabled>削除</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -279,19 +274,15 @@
                     <table class="table_detail_header" style="table-layout: fixed;">
                         <thead>
                             <tr class="header">
-                                <th style="width:  71px;" id="temp">選択</th>
+                                <th style="width:  60px;" id="temp">選択</th>
                                 <th style="width: 160px;">NO</th>
-                                <th style="width: 250px;">類型</th>
-
-                                <th style="width: 110px;">難易度</th>
-
+                                <th style="width: 200px;">類型</th>
+                                <th style="width: 100px;">ステータス</th>
+                                <th style="width: 100px;">難易度</th>
                                 <th style="width: 300px;">プロンプト概要</th>
-                                <th style="width: 160px;">ステータス</th>
-                                <th style="width: 250px;">作成日次</th>
-
-                                <th style="width: 250px;">回答時間</th>
-
-
+                                <th style="width: 450px;">プロンプト詳細</th>
+                                <th style="width: 200px;">作成日時</th>
+                                <th style="width: 200px;">回答時間</th>
                             </tr>
                         </thead>
                     </table>

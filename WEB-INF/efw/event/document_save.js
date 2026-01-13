@@ -183,10 +183,12 @@ document_save.fire = function (params) {
 
 	}
 
-	var script = "document_inputdialog.dialog('close')";
+	var script = "document_inputdialog.dialog('close');";
 	ret.eval(script);
 	// 画面へ結果を返す
-	return ret.navigate("document.jsp");
+
+	return ret.eval("searchDoc();");
+	//return ret.navigate("document.jsp");
 	// return ret;
 };
 

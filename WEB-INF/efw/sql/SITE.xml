@@ -67,6 +67,12 @@
 		where "キー" = 'accessTime'
     </sql>
 
+	<sql id="initApplyTime">
+		update "COM_システム情報"
+		set "値" = '0'
+		where "キー" = 'accessTime'
+    </sql>
+
 	<sql id="searchSiteList2">
 		select
 			*

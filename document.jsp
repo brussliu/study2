@@ -94,6 +94,11 @@
 
             Efw('common_selectoption',{code : code, inputvalue : inputvalue, outputObj : outputObj});
 
+            $("#document_inputdialog #opt_div2_dialog").val("");
+            $("#document_inputdialog #opt_div3_dialog").val("");
+            $("#document_inputdialog #opt_div4_dialog").val("");
+            
+
             $("#opt").val("new");
 
             document_inputdialog.dialog('open');

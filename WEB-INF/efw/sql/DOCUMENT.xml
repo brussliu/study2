@@ -125,7 +125,8 @@
 				"コメント" like concat('%', :keyword ,'%')
 			)
 		</if>
-
+		order by
+			"大分類","中分類","小分類","細分類","コメント"
 	</sql>
 
 	<sql id="searchDocumentDetailInfo">
@@ -161,6 +162,14 @@
 			"資料番号" = :doc_no
 	</sql>
 
+	<sql id="deleteDocumentDetailInfo2">
+		delete from "DOC_資料詳細情報"
+		where 
+			 "資料番号" = :doc_no
+			 and
+			 "枝番号" = :sub_no
+	</sql>
+
 	<sql id="searchDocument">
 		select 
 			"資料番号" as doc_no
@@ -177,6 +186,15 @@
 			 "資料番号" = :doc_no
 			 and
 			 "枝番号" = :sub_no
+	</sql>
+
+	<sql id="searchDocumentMaxSubno">
+		select 
+			max("枝番号") as doc_sub_no
+		from 
+			"DOC_資料詳細情報"
+		where
+			 "資料番号" = :doc_no
 	</sql>
 
 	<sql id="searchDocumentDiv1">

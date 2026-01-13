@@ -44,22 +44,22 @@
 <!--    检索-->
     <sql id="searchAll">
         SELECT
-        t2."番号" as no,
-        t1."類型" as type,
-        t2."難易度" as difficulty,
-        t2."戻る値種類" as category,
-        t1."プロンプト概要" as summary,
-        t2."ステータス" as state,
-        TO_CHAR(t1."登録日時", 'YYYY-MM-DD HH24-MI-SS') as registrationdate ,
-        TO_CHAR(t2."更新日時", 'YYYY-MM-DD HH24-MI-SS') as updatedate
+            t2."番号" as no,
+            t2."類型" as type,
+            t2."難易度" as difficulty,
+            t2."戻る値種類" as category,
+            t2."プロンプト概要" as summary,
+            t2."プロンプト詳細" as detail,
+            t2."ステータス" as state,
+            TO_CHAR(t2."登録日時", 'YYYY-MM-DD HH24-MI-SS') as registrationdate ,
+            case when t2."ステータス" = '回答済' then TO_CHAR(t2."更新日時", 'YYYY-MM-DD HH24-MI-SS') else '' end as updatedate
         FROM
-        "プロンプト情報管理" t1 right JOIN 	"AI質問情報管理" t2
-        ON t1."プロンプト概要" = t2."プロンプト概要" AND t1."類型" = t2."類型"
+            "AI質問情報管理" t2
         WHERE
-        1 = 1
-        <if exists="type"> AND t1."類型"  = :type</if>
-        <if exists="difficulty"> AND t2."難易度"  = :difficulty</if>
-        ORDER BY t2."番号" ASC
+            1 = 1
+            <if exists="type"> AND t2."類型"  = :type</if>
+            <if exists="difficulty"> AND t2."難易度"  = :difficulty</if>
+        ORDER BY t2."番号" desc
     </sql>
     <!--    检索回答信息-->
     <sql id="searchAnswerListForNO">
@@ -134,8 +134,30 @@
     <!--    删除回复-->
     <sql id="deleteAiAnswer">
         DELETE FROM  "AI質問情報管理"
-        WHERE "番号" = :no AND "登録ID" = :shopid
+        WHERE "番号" = :no
 
     </sql>
+
+    <sql id="selectTaskToAi05">
+        SELECT
+            t2."番号" as no,
+            t2."類型" as type,
+            t2."難易度" as difficulty,
+            t2."戻る値種類" as category,
+            t2."プロンプト概要" as summary,
+            t2."プロンプト詳細" as detail,
+            t2."ステータス" as state,
+            t2."AiType" as ai,
+            TO_CHAR(t2."登録日時", 'YYYY-MM-DD HH24-MI-SS') as registrationdate ,
+            case when t2."ステータス" = '回答済' then TO_CHAR(t2."更新日時", 'YYYY-MM-DD HH24-MI-SS') else '' end as updatedate
+        FROM
+            "AI質問情報管理" t2
+        WHERE
+            t2."ステータス" = '作成中'
+        ORDER BY t2."番号"
+    </sql>
+
+
+
 </sqls>
 

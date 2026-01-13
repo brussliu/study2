@@ -21,10 +21,10 @@
             });
 
             function  aiGenerate(){
-                $('#td_no').text("")
-                $('#text_aireply').val("");
-                $('#tr_memo').hide();
-                $("#memoTable .memo-group").remove();
+                // $('#td_no').text("")
+                // $('#text_aireply').val("");
+                // $('#tr_memo').hide();
+                // $("#memoTable .memo-group").remove();
                 Efw('ai_Generate');
             }
 
@@ -73,9 +73,9 @@
                         </td>
                         <td style="width: 200px;">
                             <select id="opt_difficulty2" style="width: 180px;height: 30px">
-                                <option value="１級" selected>１級</option>
+                                <option value="１級">１級</option>
                                 <option value="準１級">準１級</option>
-                                <option value="２級">２級</option>
+                                <option value="２級" selected>２級</option>
                                 <option value="準２級">準２級</option>
                             </select>
                         </td>
@@ -84,9 +84,8 @@
                         </td>
                         <td style="width: 200px;" >
                             <select id="opt_category2" style="width: 180px;height: 30px">
-                                <option value="" hidden selected></option>
                                 <option value="文章">文章</option>
-                                <option value="HTML">HTML</option>
+                                <option value="HTML" selected>HTML</option>
                                 <option value="JSON">JSON</option>
                             </select>
                         </td>
@@ -95,8 +94,7 @@
                         </td>
                         <td style="width: 200px;" >
                             <select id="opt_aiopt2" style="width: 180px;height: 30px">
-                                <option value="" hidden selected></option>
-                                <option value="deepseek">deepseek</option>
+                                <option value="deepseek" selected>deepseek</option>
                                 <option value="doubao">doubao</option>
                             </select>
                         </td>

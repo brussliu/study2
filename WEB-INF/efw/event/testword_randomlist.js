@@ -47,6 +47,7 @@ testword_randomlist.fire = function (params) {
 						dayfrom: dayfrom,
 						dayto: dayto,
 						status: status,
+						kind: kind,
 						count: parseInt(wordcount),
 					}
 				).getArray();
@@ -90,6 +91,7 @@ testword_randomlist.fire = function (params) {
 					book: book == "00.すべて" ? null : book,
 					dayfrom: dayfrom,
 					dayto: dayto,
+					kind: kind,
 					status: status
 				}
 			).getArray();

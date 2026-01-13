@@ -352,10 +352,10 @@
                         var kikan = $(this).children().eq(7).children().eq(0).html().substring(0, 10);
                         var today = (new Date()).format("yyyy/MM/dd");
 
-                        if(kikan == today){
-                            $(this).css("color", "blue");
-                            $(this).css("font-weight", "bold");
-                        }
+                        // if(kikan == today){
+                        //     $(this).css("color", "blue");
+                        //     $(this).css("font-weight", "bold");
+                        // }
 
                         if(per >= 90){
                             $(this).css("background-color", "rgb(200,255,200)");

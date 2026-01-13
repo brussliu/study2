@@ -308,7 +308,7 @@
                                     <td><button class="btn" onclick="Efw('common_menu_goto',{page:'testword.jsp'})">単語テスト</button></td>
                                     <td><button class="btn" onclick="Efw('common_menu_goto',{page:'word.jsp'})">単語情報管理</button></td>
                                     <td><button class="btn" onclick="Efw('common_menu_goto',{page:'learning_status.jsp'})">単語勉強状況</button></td>
-                                    <td></td>
+                                    <td><button class="btn" onclick="Efw('common_menu_goto',{page:'ai_Issues.jsp'})">AIで勉強する</button></td>
                                 </tr>
                                 <tr style="height: 80px;">
                                     <td><button class="btn" onclick="Efw('common_menu_goto',{page:'test.jsp'})">テスト情報管理</button></td>

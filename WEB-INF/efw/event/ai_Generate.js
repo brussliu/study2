@@ -23,38 +23,30 @@ ai_Generate.fire = function (params) {
 	var category =params["#opt_category2"];
 	var aiopt =params["#opt_aiopt2"];
 	var state = "作成中";
-	var no = formatTime( new Date());
+	var no = new Date().format("yyyyMMdd-HHmmss");
 
-	var insert = db.change(
+	db.change(
 		"AILSSUES",
 		"insertAiAnswer",
 		{
-			no:no,
-			type:type,
-			summary:summary,
-			detailed:detailed,
-			category:category,
-			difficulty:difficulty,
-			aiopt:aiopt,
-			state:state,
-			shopid:getShopId()
+			no : no,
+			type : type,
+			summary : summary,
+			detailed : detailed,
+			category : category,
+			difficulty : difficulty,
+			aiopt : aiopt,
+			state : state,
+			shopid : getUserId()
 		}
 	);
 
+	// ret.eval("toJAVA( '" + no + "','" + aiopt + "', '" + category + "');");
+	ret.eval("ai_Issues_Promptdialog.dialog('close');");
 
-	ret.eval("   toJAVA( '"+no+"','"+aiopt+"', '"+category+"','"+ getShopId()+"');")
+	ret.eval("searchList();");
+	
 	// 画面へ結果を返す
 	return ret;
 
 };
-// 格式化日期
-function formatTime(date) {
-	var year = date.getFullYear();
-	var month = (date.getMonth() + 1).toString().padStart(2, '0');
-	var day = date.getDate().toString().padStart(2, '0');
-	var hours = date.getHours().toString().padStart(2, '0');
-	var minutes = date.getMinutes().toString().padStart(2, '0');
-	var seconds = date.getSeconds().toString().padStart(2, '0');
-
-	return year+month+day+"-"+hours+minutes+seconds;
-}
