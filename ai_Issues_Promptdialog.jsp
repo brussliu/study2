@@ -96,6 +96,8 @@
                             <select id="opt_aiopt2" style="width: 180px;height: 30px">
                                 <option value="deepseek" selected>deepseek</option>
                                 <option value="doubao">doubao</option>
+                                <option value="gemini">gemini</option>
+                                <option value="chatgpt">chatgpt</option>
                             </select>
                         </td>
                     </tr>

@@ -351,8 +351,20 @@
 		FROM
 			"STY_単語情報" T
 		<if exists="status">
-		LEFT JOIN "V_単語情報リスト" D
-		ON T."書籍" = D.book AND T."分類" = D.classification AND T."単語SEQ" = D.wordseq
+			<if exists="kind">
+				LEFT JOIN "V_単語情報リスト" D
+				ON T."書籍" = D.book AND T."分類" = D.classification AND T."単語SEQ" = D.wordseq
+			</if>
+			<if notexists="kind">
+				LEFT JOIN "V_単語情報リスト" D
+				ON T."書籍" = D.book AND T."分類" = D.classification AND T."単語SEQ" = D.wordseq
+			</if>
+		</if>
+		<if notexists="status">
+			<if exists="kind">
+				LEFT JOIN "V_単語情報リスト" D
+				ON T."書籍" = D.book AND T."分類" = D.classification AND T."単語SEQ" = D.wordseq
+			</if>
 		</if>
 		WHERE
 			1 = 1

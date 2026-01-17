@@ -156,7 +156,7 @@
 
         function init(){
 
-            Efw('document_search');
+            // Efw('document_search');
 
             initDiv1(0);
             

@@ -92,28 +92,83 @@
             });
 
             function handleFiles(files) {
-                const formData = new FormData();
+
                 for (let i = 0; i < files.length; i++) {
-                    var f = files[i];
-
-                    var fname = f.name;
-                    var fextension = fname.substring(fname.lastIndexOf('.') + 1);
+                    let f = files[i];
+                    let fname = f.name;
+                    console.log(fname); // 多文件名遍历
+                    let fextension = fname.substring(fname.lastIndexOf('.') + 1);
                     
-                    var reader = new FileReader();
-                    reader.onload = function(e) {
-
-                        if(isPic(fextension)){
-                            // 画像表示
-                            displayPic(e.target.result, fextension, fname);
-                        }else{
-
-                            displayFile(e.target.result, fextension, fname);
-                            
-                        }
-                    };
+                    let reader = new FileReader();
+                    
+                    // 使用立即执行函数创建闭包
+                    reader.onload = (function(filename, ext, fileObj) {
+                        return function(e) {
+                            if (isPic(ext)) {
+                                // 画像表示
+                                displayPic(e.target.result, ext, filename);
+                                console.log("调用时文件名：" + filename); // 处理时的文件名
+                            } else {
+                                displayFile(e.target.result, ext, filename);
+                            }
+                        };
+                    })(fname, fextension, f);
+                    
                     reader.readAsDataURL(f);
                 }
+                
             }
+
+            // function handleFiles(files) {
+
+            //     Array.from(files).forEach((f) => {
+            //         const fname = f.name;
+            //         const fextension = fname.substring(fname.lastIndexOf('.') + 1);
+                    
+            //         console.log(fname);
+                    
+            //         const reader = new FileReader();
+                    
+            //         reader.onload = function(e) {
+            //             if (isPic(fextension)) {
+            //                 displayPic(e.target.result, fextension, fname);
+            //                 console.log("调用时文件名：" + fname);
+            //             } else {
+            //                 displayFile(e.target.result, fextension, fname);
+            //             }
+            //         };
+                    
+            //         reader.readAsDataURL(f);
+            //     });
+            // }
+
+            // function handleFiles(files) {
+
+            //     for (let i = 0; i < files.length; i++) {
+            //         var f = files[i];
+
+            //         var fname = f.name;
+
+            //         console.log(fname);
+            //         var fextension = fname.substring(fname.lastIndexOf('.') + 1);
+                    
+            //         var reader = new FileReader();
+            //         reader.onload = function(e) {
+
+            //             if(isPic(fextension)){
+            //                 // 画像表示
+            //                 displayPic(e.target.result, fextension, fname);
+
+            //                 console.log("调用时文件名：" + fname);
+            //             }else{
+
+            //                 displayFile(e.target.result, fextension, fname);
+                            
+            //             }
+            //         };
+            //         reader.readAsDataURL(f);
+            //     }
+            // }
 
             function isPic(fextension){
 
@@ -202,6 +257,7 @@
 
 
             function addTD(content, width, height, fextension, comment){
+
 
                 $(".pictd").each(function() {
 
@@ -297,9 +353,6 @@
                 var rowObj = table.find("tr").eq(row);
                 var tdObj = rowObj.find("td").eq(col);
 
-                // console.log(row);
-                // console.log(col);
-                // console.log(content);
 
                 tdObj.children().eq(0).children().eq(0).attr("src", content);
 
@@ -771,7 +824,7 @@
                 position: absolute;
                 top: 0;
                 left: 0;
-            } */
+            }  */
 
             .drop-zone.dragover {
                 border-color: #333;
@@ -805,7 +858,7 @@
                         <input type="file" id="picfile" style="display: none;" onchange='changepic(this);' multiple>
                     </td>
                     <td rowspan="5" class="dragarea" style="width: 700px;">
-                        <div class="drop-zone" id="dropZone">ファイルをここにドラグしてください。</div>
+                        <div class="drop-zone" id="dropZone" style="width: 690px;height: 250px;line-height: 250px;">ファイルをここにドラグしてください。</div>
                     </td>
                 </tr>
                 <tr style="height: 50px;">
